@@ -1,0 +1,1523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#45142d">
+<title>Berry Haven</title>
+<meta name="description" content="Berry Haven, a private mobile-first space for connection, consent, comfort and play.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Berry Haven">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{
+  --bg:#fff8f4;--ink:#351923;--muted:#7d6a73;--wine:#45142d;--wine2:#6b2242;
+  --rose:#e76f95;--rose2:#f7b2c8;--cream:#fffaf7;--line:#ead8df;--shadow:0 18px 50px rgba(67,16,39,.14);
+  --safe1:#ffe0e9;--safe2:#eee5ff;--safe3:#e4f5ee;--safe4:#e4f2ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#ece5e2;color:var(--ink)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+body{display:flex;justify-content:center}
+#app{width:min(100%,760px);min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:92px;background:linear-gradient(180deg,#4b132f 0 26%,#fff9f5 26% 100%);transition:background .6s ease}
+#app.safe{background:linear-gradient(180deg,#ffdce8 0 31%,#fffaf7 31% 100%)}
+.topbar{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;gap:15px;align-items:center;padding:calc(18px + env(safe-area-inset-top)) 18px 18px;color:#fff;background:linear-gradient(180deg,rgba(45,10,28,.98),rgba(69,20,45,.88),rgba(69,20,45,0));backdrop-filter:blur(14px)}
+#app.safe .topbar{color:#7b2948;background:linear-gradient(180deg,rgba(255,237,243,.98),rgba(255,237,243,.87),rgba(255,237,243,0))}
+.eyebrow{font-size:10px;letter-spacing:.15em;font-weight:800;opacity:.72}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif}
+h1{margin:3px 0 0;font-size:34px}h2{margin:0 0 10px;font-size:29px}h3{margin:0 0 10px;font-size:21px}
+p{line-height:1.48}.muted{color:var(--muted)}
+.statusline{display:flex;align-items:center;gap:7px;font-size:11px;opacity:.84}.dot{width:9px;height:9px;border-radius:50%;background:#aa8797}.dot.online{background:#71ba73;box-shadow:0 0 0 4px rgba(113,186,115,.14)}
+.berry-button{position:relative;width:58px;height:58px;border-radius:50%;border:3px solid rgba(255,255,255,.75);background:#fff1f6;display:grid;place-items:center;font-size:30px;box-shadow:0 0 0 8px rgba(255,255,255,.07),0 12px 30px rgba(0,0,0,.16);transition:transform .18s,box-shadow .22s}
+.berry-button:hover{transform:scale(1.06) rotate(2deg)}.berry-button:active{transform:scale(.88)}
+.berry-button.pulse{animation:berryPulse 1s ease-in-out infinite}
+#app.safe .berry-button{box-shadow:0 0 0 8px rgba(230,102,143,.13),0 0 32px rgba(231,111,149,.26)}
+@keyframes berryPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12) rotate(-4deg)}}
+main{padding:3px 15px 26px}.page{display:none;animation:pageIn .3s ease}.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.hero,.safehero{border-radius:30px;padding:24px;box-shadow:var(--shadow)}
+.hero{min-height:190px;color:#fff;display:flex;align-items:flex-end;background:radial-gradient(circle at 82% 12%,rgba(255,173,201,.25),transparent 29%),linear-gradient(135deg,#82274b,#3b0d25)}
+.hero p{color:#f4dce5;max-width:560px;margin-bottom:0}.pill{display:inline-flex;padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.12);font-size:11px;font-weight:800}
+.grid{display:grid;gap:11px;margin-top:13px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card,.panel{background:rgba(255,251,248,.96);border:1px solid rgba(98,43,62,.10);border-radius:22px;padding:17px;box-shadow:var(--shadow)}
+.navcard{border:0;text-align:left;display:flex;gap:13px;align-items:flex-start;min-height:120px;color:var(--ink)}
+.icon{width:46px;height:46px;flex:0 0 46px;border-radius:50%;display:grid;place-items:center;font-size:23px;color:#fff;background:linear-gradient(145deg,#85274a,#db6e91)}
+.navcard strong{display:block;font-family:Georgia,serif;font-size:18px}.navcard small{display:block;margin-top:6px;line-height:1.35;color:var(--muted)}
+.panel{margin-top:13px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:10px}.check{display:flex;align-items:center;gap:11px;padding:13px 0;border-top:1px solid var(--line)}.check input{width:22px;height:22px;accent-color:var(--rose)}
+input,textarea,select{width:100%;padding:13px 14px;border:1px solid #e2d0d8;border-radius:14px;background:#fff;color:var(--ink);outline:none}
+textarea{resize:vertical}input:focus,textarea:focus,select:focus{border-color:#dd7899;box-shadow:0 0 0 3px rgba(221,120,153,.15)}
+label{display:block;margin:13px 0;font-weight:700}label input,label textarea,label select{margin-top:7px;font-weight:400}
+button,.primary{border:0;border-radius:14px;padding:12px 15px;background:#712041;color:#fff}.primary{margin-top:10px}.soft{background:#f3e7ec;color:#5d2940}.danger{background:#913b46}.inline{display:flex;gap:8px;align-items:center}.inline input{flex:1}
+.segmented{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.segmented button{background:#eee5e9;color:#654754}.segmented button.selected{background:#792343;color:#fff}
+.chat{height:min(58vh,640px);overflow:auto;border-radius:23px;padding:14px;background:#fffaf6;border:1px solid var(--line);box-shadow:var(--shadow)}
+.msg{max-width:80%;padding:11px 14px;border-radius:18px;margin:9px 0;line-height:1.42}.msg.me{margin-left:auto;background:#f6dbe4}.msg.them{background:#f0eae6}.msg small{display:block;margin-top:5px;color:#9b8891;font-size:10px}
+.composer{display:flex;gap:8px;margin-top:10px}.composer input{flex:1}
+.list{display:grid;gap:8px;margin-top:12px}.item{display:flex;align-items:center;gap:9px;padding:11px 12px;border-radius:14px;background:#f7efec}.grow{flex:1}.item button{padding:7px 10px}
+.safehero{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,var(--safe1),var(--safe2) 50%,var(--safe3));color:#762746}.safehero .mascot{font-size:72px;filter:drop-shadow(0 10px 13px rgba(181,70,108,.15))}.safehero p{margin-bottom:0;color:#7d6a73}
+.safecard{background:rgba(255,255,255,.84);color:#6e2541}.safecard .icon{background:linear-gradient(145deg,#ffd1de,#d9ceff);color:#6e2541}
+.comfort button{min-height:110px;background:#fffaf8;color:#702542;border:1px solid rgba(213,102,138,.13);box-shadow:var(--shadow);font-size:25px}.comfort button span{display:block;font-size:11px;margin-top:6px}
+.feelings{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.feelings button{background:#f5ecef;color:#5b3040;font-size:21px;padding:10px 4px}.feelings span{display:block;font-size:10px;margin-top:4px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.quick button{background:#fff0f4;color:#77243f;border:1px solid #f2c6d4}
+.softgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:10px}.softgrid button{min-height:66px;background:#f3e7ec;color:#5f2d40}
+.grounding{background:linear-gradient(135deg,#f2e7ff,#e7f6ee);border-radius:18px;padding:15px;margin-top:15px}
+.memory{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.mcard{aspect-ratio:1;border-radius:17px;background:linear-gradient(145deg,#efbfd0,#d9cef5);color:#fff;font-size:0}.mcard.flipped,.mcard.matched{background:#fff5f8;color:#333;font-size:30px;transform:rotateY(180deg)}.mcard.matched{outline:3px solid #b9dfc7}
+.berrycount{background:#ffe5ed;color:#9a3659;padding:7px 10px;border-radius:999px}
+.caregiverbox{padding:17px;border-radius:18px;background:linear-gradient(135deg,#fff0f4,#f1eaff);font-size:17px;line-height:1.5}
+.bottomnav{position:fixed;z-index:40;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,760px);height:82px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:flex;gap:2px;background:rgba(47,10,28,.96);backdrop-filter:blur(18px);box-shadow:0 -10px 30px rgba(31,7,18,.14)}
+#app.safe .bottomnav{background:rgba(255,250,247,.96);border-top:1px solid #efdce2}.bottomnav button{flex:1;padding:6px 3px;background:transparent;color:#eadfe4;font-size:18px}.bottomnav span{display:block;font-size:9px;margin-top:3px}#app.safe .bottomnav button{color:#7b6871}.bottomnav button.active{color:#ff84aa}
+.transition,.exittrans{position:fixed;inset:0;z-index:200;display:none;place-items:center;overflow:hidden}.transition.show,.exittrans.show{display:grid}
+.transition{background:linear-gradient(180deg,#ffd8e4,#f1e8ff 56%,#e8f6ee);animation:fade .25s ease}.exittrans{background:linear-gradient(180deg,#fff0f4,#f8edf2);animation:fade .25s ease}
+.tcard{position:relative;z-index:3;width:min(84vw,520px);padding:30px;text-align:center;border-radius:34px;background:rgba(255,255,255,.87);border:1px solid #ffcfe0;box-shadow:0 25px 70px rgba(166,68,105,.18);animation:pop .58s cubic-bezier(.15,.9,.2,1.2)}.tberry{font-size:64px;animation:bounce .75s ease-in-out infinite alternate}.tcard h2{color:#7b2341;font-size:34px}.tcard p{margin:7px}.progress{height:14px;border-radius:999px;background:#f6dce5;overflow:hidden;margin-top:20px}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#eb7c9d,#d35480);animation:load 1.6s ease forwards}
+.spark{position:absolute;z-index:2;font-size:27px;animation:float 1.8s ease-in-out infinite}.s1{left:12%;top:18%}.s2{right:13%;top:24%}.s3{left:17%;bottom:17%;font-size:39px}.s4{right:17%;bottom:20%;font-size:30px}
+.wave{position:absolute;width:120vmax;height:120vmax;border-radius:44%;background:rgba(255,255,255,.18);animation:spin 6s linear infinite}.w1{left:-24vmax;bottom:-95vmax}.w2{right:-25vmax;top:-98vmax;animation-direction:reverse}
+.toast{position:fixed;z-index:300;left:50%;bottom:94px;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#2d1220;color:#fff;border-radius:999px;padding:11px 16px;transition:.24s}.toast.show{opacity:1;transform:translate(-50%,0)}
+.pairbox{background:linear-gradient(135deg,#e9f7ee,#f0ebff);border-radius:18px;padding:14px}.codebox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:20px;letter-spacing:.08em;background:#2f1020;color:#fff;padding:15px;border-radius:16px;word-break:break-all}
+@keyframes fade{from{opacity:0}to{opacity:1}}@keyframes pop{from{opacity:0;transform:scale(.78) translateY(24px)}to{opacity:1;transform:none}}@keyframes bounce{to{transform:scale(1.1) rotate(3deg)}}@keyframes load{to{width:100%}}@keyframes float{50%{transform:translateY(-18px) rotate(9deg)}}@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:520px){.grid.two{grid-template-columns:1fr}.grid.three,.comfort{grid-template-columns:repeat(2,1fr)}.quick{grid-template-columns:repeat(2,1fr)}.inline{flex-wrap:wrap}.inline input{min-width:190px}}
+
+/* v2 polish */
+.spicy-panel{margin-top:13px;background:linear-gradient(135deg,#35101f,#7d2445 55%,#a3375d);color:#fff;overflow:hidden;position:relative}
+.spicy-panel:after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;right:-65px;top:-75px;background:rgba(255,153,188,.14)}
+.spicy-panel p{color:#f6dce6;margin-top:-2px}.spicy-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;position:relative;z-index:1}
+.spicy-grid button{min-height:72px;text-align:left;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.13);color:#fff;display:flex;gap:10px;align-items:center}
+.spicy-grid button strong{display:block}.spicy-grid button small{display:block;opacity:.72;margin-top:2px}.spicy-grid button.hot{background:linear-gradient(135deg,#a52b57,#e45f89)}
+.spicy-grid button.cnc-on{background:linear-gradient(135deg,#6d1a38,#bf3865);box-shadow:inset 0 0 0 2px #ffb5ca}
+.msgwrap{max-width:80%;margin:9px 0}.msgwrap.mine{margin-left:auto}.msgwrap .msg{max-width:100%;margin:0}.msgtools{display:flex;justify-content:flex-end;gap:5px;margin-top:4px}
+.msgtools button{padding:4px 8px;border-radius:10px;background:transparent;color:#967482;font-size:10px}.msgtools button:hover{background:#f4e8ed;color:#6d2540}
+.little-chat .msgtools button{color:#9b7290}
+.task-list{display:grid;gap:10px;margin-top:14px}.task-card{position:relative;display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:12px;width:100%;border:1px solid rgba(208,102,139,.13);border-radius:20px;padding:13px;background:linear-gradient(135deg,#fff8fb,#fffdf8);color:#64233d;text-align:left;box-shadow:0 8px 22px rgba(119,49,78,.08);overflow:visible;transition:.2s transform,.2s box-shadow}
+.task-card:hover{transform:translateY(-2px)}.task-card:active{transform:scale(.98)}.task-card.done{background:linear-gradient(135deg,#e8f8ef,#fff1f6);opacity:.82}
+.task-icon{width:50px;height:50px;border-radius:17px;display:grid;place-items:center;font-size:26px;background:linear-gradient(145deg,#ffd3df,#e2d8ff)}
+.task-copy strong{display:block;font-family:Georgia,serif;font-size:17px}.task-copy small{display:block;color:#9a7785;margin-top:3px}.task-check{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#f7dce6;color:#a44165;font-weight:900}.task-card.done .task-check{background:#a9dfbd;color:#24683c}
+.task-delete{position:absolute;right:8px;top:7px;padding:3px 7px!important;background:transparent!important;color:#b38998!important;font-size:12px}
+.celebrate{position:fixed;z-index:500;pointer-events:none;font-size:18px;animation:floatUp 1.15s ease-out forwards}
+@keyframes floatUp{0%{opacity:0;transform:translate(-50%,0) scale(.5) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translate(var(--dx),-110px) scale(1.25) rotate(var(--rot))}}
+.bottomnav{height:88px;border-radius:27px 27px 0 0;padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:5px}
+.bottomnav button{border-radius:18px;transition:.2s transform,.2s background,.2s color;position:relative}
+.bottomnav button b{display:grid;place-items:center;width:34px;height:34px;margin:auto;border-radius:13px;font-size:18px;font-weight:400;transition:.2s}
+.bottomnav button.active{background:rgba(255,255,255,.09);transform:translateY(-5px)}
+.bottomnav button.active b{background:linear-gradient(145deg,#ff94b3,#d85f86);color:#fff;box-shadow:0 7px 16px rgba(217,91,132,.28)}
+#app.safe .bottomnav{background:linear-gradient(180deg,rgba(255,253,250,.98),rgba(255,244,249,.98))}
+#app.safe .bottomnav button.active{background:#fff0f5}#app.safe .bottomnav button.active b{background:linear-gradient(145deg,#ffabc0,#c9b8ff)}
+.need-note{text-align:center;color:#9b7080;font-size:12px;margin:9px 0 0}
+.lock-screen{position:fixed;z-index:1000;inset:0;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 50% 18%,#fff7cd 0 5%,transparent 22%),linear-gradient(160deg,#ffdce8,#eee5ff 55%,#e4f5ee);backdrop-filter:blur(18px)}
+.lock-screen[hidden]{display:none}.lock-card{width:min(92vw,480px);padding:27px;border-radius:32px;background:rgba(255,255,255,.9);box-shadow:0 30px 90px rgba(101,38,67,.22);border:1px solid #ffd0df;text-align:center}
+.lock-logo{font-size:66px;filter:drop-shadow(0 10px 14px rgba(191,73,111,.17))}.lock-card h2{color:#792542}.lock-card p{color:#816d76}.combo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.combo-berry{aspect-ratio:1.15;border-radius:24px;color:#fff;position:relative;font-size:32px;box-shadow:inset 0 -8px 15px rgba(77,24,50,.10),0 8px 20px rgba(83,34,58,.10);overflow:hidden}
+.combo-berry:before{content:"🍓";position:absolute;inset:0;display:grid;place-items:center;font-size:45px;filter:saturate(.35) brightness(1.5);opacity:.30}
+.combo-berry span{position:relative;z-index:2;display:grid;place-items:center;margin:auto;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.28);font-family:Georgia,serif;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,.18)}
+.combo-berry[data-n="1"]{background:#e95d86}.combo-berry[data-n="2"]{background:#9a72df}.combo-berry[data-n="3"]{background:#62a7df}.combo-berry[data-n="4"]{background:#6fba83}.combo-berry[data-n="5"]{background:#eea354}.combo-berry[data-n="6"]{background:#c94e5e}
+.combo-dots{display:flex;justify-content:center;gap:9px;min-height:19px;margin:7px 0 12px}.combo-dot{width:15px;height:15px;border-radius:50%;background:#eadbe2;border:2px solid #fff;box-shadow:0 0 0 1px #d7bdc8}.combo-dot.filled{background:#e36c92}
+.account-box{background:linear-gradient(135deg,#fff1f5,#f0eaff);border-radius:18px;padding:15px}.account-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.account-row strong{color:#792542}
+.account-create[hidden],.account-ready[hidden]{display:none}
+.lock-password{display:flex;gap:8px;margin-top:12px}.lock-password input{flex:1}
+.shake{animation:shake .35s ease}@keyframes shake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-5px)}}
+
+/* ===== Berry Haven v3 additions ===== */
+.auth-overlay,.quicklock{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:18px;background:radial-gradient(circle at 50% 10%,#fff6c8 0 4%,transparent 20%),linear-gradient(155deg,#ffdce7,#eee5ff 55%,#e5f6ed);overflow:auto}.auth-overlay[hidden],.quicklock[hidden]{display:none}.auth-card,.quicklock-card{width:min(94vw,500px);padding:24px;border-radius:31px;background:rgba(255,255,255,.93);box-shadow:0 30px 90px rgba(99,35,64,.22);border:1px solid #ffd0df}.auth-card h2,.quicklock-card h2{text-align:center;color:#792542}.auth-logo{font-size:64px;text-align:center}.auth-tabs{display:flex;gap:7px;margin:13px 0}.auth-tabs button{flex:1;background:#f1e6eb;color:#6c4657}.auth-tabs button.active{background:#762744;color:#fff}.account-list{display:grid;gap:8px}.account-choice{display:flex;align-items:center;gap:11px;text-align:left;background:#fff;color:#5c2b3f;border:1px solid #ead9df}.account-choice .avatar{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#ffd2df,#e0d6ff);font-size:22px}.account-choice small{display:block;color:#8d7580}.role-chip{display:inline-flex;padding:6px 9px;border-radius:999px;background:#f2e7ed;color:#77405a;font-size:11px;font-weight:800}
+.combo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}.combo-berry{aspect-ratio:1.2;border-radius:23px;color:#fff;position:relative;font-family:Georgia,serif;font-weight:900;font-size:29px;overflow:hidden;box-shadow:inset 0 -7px 14px rgba(75,20,45,.10),0 8px 18px rgba(82,32,57,.09)}.combo-berry:before{content:"🍓";position:absolute;inset:0;display:grid;place-items:center;font-size:44px;opacity:.18;filter:grayscale(1) brightness(2)}.combo-berry span{position:relative;z-index:2}.combo-berry[data-n="1"]{background:#e75d86}.combo-berry[data-n="2"]{background:#9871dd}.combo-berry[data-n="3"]{background:#5e9fd9}.combo-berry[data-n="4"]{background:#67b87e}.combo-berry[data-n="5"]{background:#e9a14f}.combo-berry[data-n="6"]{background:#c95362}.combo-dots{display:flex;justify-content:center;gap:8px;min-height:18px;margin:6px 0 10px}.combo-dot{width:14px;height:14px;border-radius:50%;background:#eadbe2;border:2px solid #fff;box-shadow:0 0 0 1px #d8bdc8}.combo-dot.on{background:#e36b92}
+.berry-button{padding:0;display:grid;place-items:center;line-height:1}.berry-button .berry-mark{display:grid;place-items:center;width:42px;height:42px;font-size:34px;transform:translateY(1px)}.return-hint{margin:12px 2px 0;padding:11px 14px;border-radius:16px;display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.64);border:1px solid rgba(213,105,141,.14);color:#8a3b59;font-size:12px}.return-hint b{font-size:21px}.feelings-v3{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.feeling-v3{background:#fff7fa;color:#6d2b44;padding:10px 4px;border:1px solid #f0d6e0}.feeling-v3.selected{outline:3px solid #e8a8be}.feeling-v3 .face{display:block;font-size:30px}.feeling-v3 span:last-child{display:block;font-size:10px;margin-top:4px}
+.consent-tabs-v3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.consent-tabs-v3 button{background:#eee4e8;color:#614352;padding:14px 8px}.consent-tabs-v3 button.active.yes{background:#dff3e5;color:#317045}.consent-tabs-v3 button.active.maybe{background:#fff0cf;color:#8c6019}.consent-tabs-v3 button.active.no{background:#f7dce2;color:#8c3548}.consent-explain{padding:12px 14px;border-radius:15px;background:#f6eff2;color:#75606a;font-size:12px}.consent-columns{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:11px}.consent-box{padding:14px;border-radius:18px;background:#fff;border:1px solid #ead9df}.consent-box.partner{background:#f7f1f4}.consent-box textarea{min-height:185px}.partner-readonly{white-space:pre-wrap;min-height:185px;padding:13px;border-radius:14px;background:#f2ecef;color:#66505b}.partner-empty{color:#9b8790;font-style:italic}
+.chat-v3{height:min(55vh,610px);overflow:auto;border-radius:23px;padding:14px;background:#fffaf6;border:1px solid #ead7df;box-shadow:0 18px 48px rgba(65,16,38,.13);scroll-behavior:smooth}#app.safe .chat-v3{background:rgba(255,255,255,.8)}.msgwrap{max-width:80%;margin:9px 0}.msgwrap.mine{margin-left:auto}.msgbody{padding:11px 14px;border-radius:18px;line-height:1.42;word-break:break-word}.msgwrap.mine .msgbody{background:#f6dbe4}.msgwrap.theirs .msgbody{background:#f0eae6}#app.safe .msgwrap.mine .msgbody{background:#ffe2eb}#app.safe .msgwrap.theirs .msgbody{background:#eee7fb}.msgbody small{display:block;margin-top:5px;color:#9b8790;font-size:10px}.msgtools{display:flex;justify-content:flex-end;gap:5px;margin-top:4px}.msgtools button{padding:4px 8px;background:transparent;color:#9c7685;font-size:10px}.msg-image{display:block;max-width:100%;border-radius:14px;margin-top:8px}.file-chip{margin-top:8px;display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.58);font-size:12px}.file-chip .grow{flex:1}.composer-shell{position:relative;margin-top:9px}.composer-v3{display:grid;grid-template-columns:auto auto 1fr auto;gap:7px;align-items:center}.composer-v3 input{min-width:0}.composer-v3 .round{width:43px;height:43px;padding:0;display:grid;place-items:center;border-radius:15px;background:#f4e7ec;color:#762845}.composer-v3 .send{height:43px}.picker-v3{position:absolute;left:0;right:0;bottom:52px;z-index:18;padding:12px;border-radius:20px;background:rgba(255,252,250,.98);box-shadow:0 18px 48px rgba(64,18,38,.2);border:1px solid #ead5dd}.picker-tabs{display:flex;gap:6px;margin-bottom:8px}.picker-tabs button{padding:7px 10px;background:#f1e5ea;color:#6d2a43}.picker-tabs button.active{background:#7c2948;color:#fff}.emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:188px;overflow:auto}.emoji-grid button{padding:7px 2px;background:transparent;color:#333;font-size:23px}.berrymoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.berrymoji-btn{background:#fff4f7!important;padding:5px!important;font-size:30px}.sticker-large{font-size:58px;line-height:1;text-align:center;display:block}.file-status{font-size:10px;color:#987989;margin-top:4px}
+.task-list-v3{display:grid;gap:10px;margin-top:13px}.task-card-v3{position:relative;width:100%;display:grid;grid-template-columns:52px 1fr 34px;align-items:center;gap:11px;padding:13px;border-radius:20px;text-align:left;color:#63243c;background:linear-gradient(135deg,#fff8fb,#fffdf8);border:1px solid rgba(210,105,140,.13);box-shadow:0 8px 21px rgba(116,48,76,.08);transition:.18s}.task-card-v3:active{transform:scale(.98)}.task-card-v3.done{background:linear-gradient(135deg,#e8f8ef,#fff0f5)}.task-icon-v3{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(145deg,#ffd2df,#e2d7ff);font-size:26px}.task-copy-v3 strong{display:block;font-family:Georgia,serif;font-size:17px}.task-copy-v3 small{display:block;color:#9a7885;margin-top:3px}.task-tick-v3{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#f7dbe5;color:#a23f63;font-weight:900}.task-card-v3.done .task-tick-v3{background:#aee0bf;color:#276a3e}.task-delete-v3{position:absolute;right:7px;top:5px;padding:3px 7px;background:transparent;color:#b28b99;font-size:12px}.celebrate-v3{position:fixed;z-index:900;pointer-events:none;font-size:19px;animation:floatUpV3 1.15s ease-out forwards}@keyframes floatUpV3{0%{opacity:0;transform:translate(-50%,0) scale(.5)}20%{opacity:1}100%{opacity:0;transform:translate(var(--dx),-115px) scale(1.3) rotate(var(--rot))}}
+.game-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat-v3{padding:11px;border-radius:15px;background:linear-gradient(135deg,#fff0f5,#f2ecff);text-align:center}.stat-v3 strong{display:block;font-family:Georgia,serif;font-size:20px;color:#7d2b49}.stat-v3 small{color:#8f7480}.game-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.game-tabs button{background:#eee4e9;color:#694a58}.game-tabs button.active{background:#d95f86;color:#fff}.memory-v3{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.mcard-v3{aspect-ratio:1;border-radius:14px;background:linear-gradient(145deg,#edbfd0,#d7cdf4);color:#fff;padding:0;font-size:0}.mcard-v3.flipped,.mcard-v3.matched{background:#fff5f8;color:#333;font-size:25px}.mcard-v3.matched{outline:3px solid #b6dfc5}.word-list{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.word-pill{padding:6px 9px;border-radius:999px;background:#f3e7ed;font-size:11px}.word-pill.found{text-decoration:line-through;background:#dff3e5;color:#39744a}.word-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;touch-action:none}.word-cell{aspect-ratio:1;padding:0;border-radius:7px;background:#fff;color:#623047;font-weight:800;font-size:13px;border:1px solid #f0dde4}.word-cell.preview{background:#ffe0ea}.word-cell.found{background:#ccebd8;color:#2f7044}.connect-board{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:8px;border-radius:18px;background:linear-gradient(145deg,#d9c9f3,#f2d8e3)}.connect-cell{aspect-ratio:1;border-radius:50%;padding:0;background:rgba(255,255,255,.72);display:grid;place-items:center;font-size:25px}.game-status{text-align:center;font-family:Georgia,serif;color:#7a2a48;font-size:18px;margin:10px}
+.media-card{display:flex;gap:12px;align-items:center;padding:13px;border-radius:18px;background:linear-gradient(135deg,#fff5f8,#f2ecff);border:1px solid #eed8e0;margin-top:9px}.media-card .media-icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#fff;font-size:23px}.media-card .grow{flex:1}.media-card strong{display:block}.media-card small{display:block;color:#8c747f;margin-top:3px}.media-card button{padding:8px 11px}.sound-grid-v3{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.sound-grid-v3 button{min-height:72px;background:#f2e8ed;color:#5d2b3f}.sound-grid-v3 button.playing{outline:3px solid #c49ae4;background:#f0e8ff}
+.aftercare-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.after-option{background:#f2e7ec;color:#5c293e;min-height:64px}.after-option.on{background:linear-gradient(135deg,#f7cad8,#e8dcff);outline:2px solid #d989a5}.range-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}.history-v3{display:grid;gap:8px;margin-top:10px}.history-card-v3{padding:12px;border-radius:15px;background:#f7f0ed;font-size:12px}
+.bottomnav{height:88px;border-radius:27px 27px 0 0;padding:8px 9px calc(8px + env(safe-area-inset-bottom));gap:4px}.bottomnav button{border-radius:17px;transition:.18s transform,.18s background}.bottomnav button b{width:35px;height:35px;border-radius:13px;display:grid;place-items:center;margin:auto;font-size:18px}.bottomnav button.active{transform:translateY(-5px);background:rgba(255,255,255,.08)}.bottomnav button.active b{background:linear-gradient(145deg,#ff92b2,#d75c85);box-shadow:0 7px 17px rgba(217,91,132,.28)}#app.safe .bottomnav button.active{background:#fff0f5}#app.safe .bottomnav button.active b{background:linear-gradient(145deg,#ffadc1,#cbbaff);color:#fff}
+.menu-list-v3{display:grid;gap:8px}.menu-btn-v3{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;color:#5c2b3f;border:1px solid #ead9df}.menu-btn-v3 .menuicon{width:42px;height:42px;border-radius:14px;background:#f4e8ee;display:grid;place-items:center;font-size:20px}.pair-status-v3{padding:12px 14px;border-radius:15px;background:#f2e9ee;color:#6b4253}.pair-status-v3.online{background:#e4f4e8;color:#347245}
+@media(max-width:520px){.consent-columns{grid-template-columns:1fr}.feelings-v3{grid-template-columns:repeat(3,1fr)}.emoji-grid{grid-template-columns:repeat(7,1fr)}}
+
+
+/* Revision 4: embedded Berry media players */
+.embed-shell{margin:12px 0 14px;border-radius:22px;overflow:hidden;background:#2f1020;box-shadow:0 16px 38px rgba(58,17,36,.16);border:1px solid rgba(104,44,68,.14)}
+.embed-ratio{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#3a1630,#5f2447)}
+.embed-ratio iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.embed-meta{padding:12px 14px;background:linear-gradient(135deg,#fff6f9,#f3edff);color:#5f2941}
+.embed-meta strong{display:block;font-family:Georgia,serif;font-size:18px}.embed-meta small{display:block;color:#8b7280;margin-top:3px}
+.stream-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}
+.stream-card{min-height:82px;display:flex;align-items:center;gap:11px;text-align:left;background:linear-gradient(135deg,#fff7fa,#f3edff);color:#602941;border:1px solid #eed9e2}
+.stream-card.active{outline:3px solid #daa0c3;background:linear-gradient(135deg,#ffe6ee,#ebe3ff)}
+.stream-card .stream-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;display:grid;place-items:center;background:#fff;font-size:22px}
+.stream-card strong{display:block;font-size:13px}.stream-card small{display:block;margin-top:3px;color:#907581;font-size:10px;line-height:1.25}
+.media-note{font-size:11px;color:#927986;padding:10px 12px;border-radius:14px;background:#fff5f8;margin-top:10px}
+.local-media-warning{display:none;padding:11px 12px;border-radius:14px;background:#fff0d8;color:#7b581d;margin:10px 0;font-size:12px}
+.local-media-warning.show{display:block}
+@media(max-width:430px){.stream-picker{grid-template-columns:1fr}}
+
+
+/* Revision 5: Berry Wallet, Prize Garden, Colour-by-Numbers, interactive Comfort Corner */
+.wallet-banner{position:sticky;top:96px;z-index:16;margin:0 0 12px;padding:14px 16px;border-radius:22px;background:linear-gradient(135deg,#7b284b,#d85e86 60%,#ef91ad);color:#fff;box-shadow:0 12px 30px rgba(114,37,70,.2);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.wallet-banner strong{display:block;font-family:Georgia,serif;font-size:24px}.wallet-banner small{opacity:.82}.wallet-berry{font-size:36px;filter:drop-shadow(0 6px 9px rgba(69,18,39,.22))}
+.arcade-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.arcade-summary .stat-v3{background:linear-gradient(135deg,#fff4f8,#eee8ff)}
+.game-tabs.v5{grid-template-columns:repeat(2,1fr)}
+.game-statbar{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:8px 0 12px}
+.game-statbar .mini-stat{padding:9px 7px;border-radius:14px;text-align:center;background:#f7edf2}
+.game-statbar strong{display:block;color:#7e2c4b;font-family:Georgia,serif;font-size:17px}.game-statbar small{font-size:9px;color:#907681}
+.shop-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.shop-card{position:relative;padding:14px;border-radius:19px;background:linear-gradient(145deg,#fff9fb,#f2edff);border:1px solid #eedbe3;box-shadow:0 8px 22px rgba(101,42,68,.08)}
+.shop-card .shop-icon{font-size:35px}.shop-card strong{display:block;font-family:Georgia,serif;color:#6d2942;margin-top:5px}.shop-card small{display:block;color:#927985;margin:4px 0 10px;line-height:1.3}
+.shop-card button{width:100%;padding:9px}.shop-card.unlocked{background:linear-gradient(145deg,#e8f8ee,#fff6f9)}.shop-card.unlocked button{background:#b5ddc2;color:#326b43}
+.shop-section-title{margin-top:19px;padding-top:4px;border-top:1px dashed #ead1db}
+.topic-select{display:flex;gap:6px;overflow:auto;padding:3px 0 9px;scrollbar-width:none}.topic-select::-webkit-scrollbar{display:none}.topic-pill{white-space:nowrap;background:#f2e7ec;color:#684657;padding:8px 11px}.topic-pill.active{background:#d95f86;color:#fff}.topic-pill.locked{opacity:.5}
+.colour-wrap{display:grid;gap:10px}.colour-title{text-align:center;color:#752945}
+.colour-pages{display:flex;gap:7px;overflow:auto;padding:3px 0 8px}.colour-page-btn{white-space:nowrap;background:#f1e7ec;color:#684657;padding:8px 10px}.colour-page-btn.active{background:#d95f86;color:#fff}.colour-page-btn.locked{opacity:.52}
+.colour-palette{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}.colour-swatch{width:45px;height:45px;border-radius:15px;padding:0;border:3px solid rgba(255,255,255,.9);box-shadow:0 0 0 1px #d9c1cb;color:#fff;font-weight:900;text-shadow:0 1px 4px rgba(0,0,0,.35)}.colour-swatch.active{transform:translateY(-4px);box-shadow:0 5px 14px rgba(91,39,62,.2),0 0 0 3px #9c7090}
+.colour-grid{width:min(100%,420px);margin:auto;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;padding:8px;border-radius:18px;background:#e9dbe2}.colour-cell{aspect-ratio:1;border-radius:6px;padding:0;background:#fff;color:#6c5360;font-weight:800;font-size:11px;border:1px solid #ead8df}.colour-cell.done{color:transparent;border-color:rgba(255,255,255,.42)}.colour-cell.wrong{animation:wiggle .28s ease}
+@keyframes wiggle{25%{transform:translateX(-3px)}50%{transform:translateX(3px)}75%{transform:translateX(-2px)}}
+.comfort-section{margin-top:13px;padding:15px;border-radius:20px;background:linear-gradient(135deg,#fff8fb,#f0ebff);border:1px solid #eed9e2}
+.comfort-chips{display:flex;flex-wrap:wrap;gap:7px}.comfort-chip{background:#fff;color:#6b3048;border:1px solid #ecd8df;padding:9px 11px}.comfort-chip.on{background:#dff3e6;color:#347149;outline:2px solid #b9dfc5}
+.comfort-result{min-height:52px;margin-top:10px;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.72);color:#745465;font-size:12px}
+.touch-options{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.touch-option{background:#fff;color:#6d334a;border:1px solid #ead7df}.touch-option.on{background:#ffe4ed;outline:2px solid #e5a5ba}
+.breath-area{text-align:center}.breath-berry{width:112px;height:112px;margin:12px auto;border-radius:50%;display:grid;place-items:center;font-size:52px;background:radial-gradient(circle,#fff8fb,#ffd9e6);box-shadow:0 12px 28px rgba(150,67,101,.14);transition:transform 4s ease-in-out,box-shadow 4s ease-in-out}.breath-berry.inhale{transform:scale(1.33);box-shadow:0 18px 42px rgba(170,82,116,.24)}.breath-berry.hold{transform:scale(1.33)}.breath-berry.exhale{transform:scale(.88)}
+.breath-text{font-family:Georgia,serif;color:#792b49;font-size:20px;min-height:28px}
+.ground-checks{display:grid;gap:7px}.ground-step{width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:#fff;color:#613145;border:1px solid #e9d7de}.ground-step.on{background:#e5f5eb;color:#347048}.ground-step .bubble{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#f1e2e8}
+.ground-progress{height:10px;border-radius:999px;background:#eee0e6;overflow:hidden;margin-top:9px}.ground-progress i{display:block;height:100%;background:linear-gradient(90deg,#de6f93,#a37cdd);width:0;transition:.25s}
+.login-oops{min-height:18px;margin-top:8px;text-align:center;color:#a04c69;font-size:12px;font-weight:650}
+.prize-button{width:100%;margin:8px 0 4px;background:linear-gradient(135deg,#c78adf,#e56c98);box-shadow:0 8px 18px rgba(153,70,119,.16)}
+@media(max-width:430px){.shop-grid{grid-template-columns:1fr}.game-statbar{grid-template-columns:repeat(3,1fr)}.wallet-banner{top:91px}}
+
+
+/* Revision 6: improved soothing audio engine */
+.sound-grid-v3 button{position:relative;overflow:hidden}
+.sound-grid-v3 button.playing{background:linear-gradient(135deg,#eadfff,#ffe5ee);outline:3px solid #c79bdc;color:#6e2d49}
+.sound-grid-v3 button.playing:after{content:"playing";position:absolute;right:8px;top:7px;font-size:8px;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+.sound-meter{display:flex;align-items:center;gap:10px;margin-top:8px}
+.sound-meter input{flex:1}.sound-meter output{min-width:42px;text-align:right;color:#7d5d6d;font-weight:700;font-size:12px}
+.sound-help{padding:10px 12px;margin-top:10px;border-radius:14px;background:#fff7fa;color:#856b77;font-size:11px}
+
+
+/* Revision 7: simplified Berry Pairing */
+.pair-hero{padding:16px;border-radius:20px;background:linear-gradient(135deg,#fff0f5,#eee8ff);border:1px solid #ead7e2;margin:11px 0}
+.pair-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0 14px}
+.pair-step{padding:9px 6px;border-radius:14px;background:#f6edf2;text-align:center;font-size:10px;color:#806675}.pair-step b{display:grid;place-items:center;width:27px;height:27px;margin:0 auto 4px;border-radius:50%;background:#fff;color:#8a3455}
+.psn-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:21px;letter-spacing:.08em;font-weight:900;text-align:center;padding:15px 9px;border-radius:17px;background:#3a1429;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09);word-break:break-word}
+.pair-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:9px 0}
+.pair-actions button{min-height:48px}
+.pair-paste{min-height:150px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.35}
+.pair-response{margin-top:10px;padding:12px;border-radius:16px;background:#eef8f1;border:1px solid #cfe7d7}
+.pair-response[hidden]{display:none}
+.pair-response textarea{min-height:115px;margin-top:8px}
+.pair-type{display:inline-flex;padding:5px 8px;border-radius:999px;background:#eadff2;color:#6d3c76;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.pair-fineprint{padding:10px 11px;border-radius:14px;background:#fff8e8;color:#80632b;font-size:10px;line-height:1.4;margin-top:10px}
+@media(max-width:430px){.pair-actions{grid-template-columns:1fr}.pair-steps{gap:4px}.psn-code{font-size:18px}}
+
+
+/* Revision 8: reliable account list + account/local data management */
+.account-danger-zone{
+  margin-top:13px;
+  padding:16px;
+  border-radius:21px;
+  background:linear-gradient(145deg,#fff8f8,#fff0f3);
+  border:1px solid #efcbd4
+}
+.account-danger-zone h3{color:#823449}
+.account-action-card{
+  padding:13px;
+  margin-top:9px;
+  border-radius:17px;
+  background:rgba(255,255,255,.78);
+  border:1px solid #ecd9df
+}
+.account-action-card strong{display:block;color:#653044}
+.account-action-card small{display:block;color:#8d737e;line-height:1.4;margin:4px 0 10px}
+.account-action-card button{width:100%}
+.erase-local-btn{background:#f1e5e9;color:#713448}
+.delete-account-btn{background:#913b46;color:#fff}
+.account-refresh-note{font-size:10px;color:#927986;text-align:center;margin-top:8px}
+
+
+/* Revision 9: rebuilt Rules & Routines + Aftercare */
+.section-tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
+.section-tabs button{background:#f0e5ea;color:#684657}.section-tabs button.active{background:#762744;color:#fff}
+.rules-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rule-form,.routine-form,.after-plan{padding:14px;border-radius:19px;background:linear-gradient(145deg,#fff8fa,#f5efff);border:1px solid #ead8e0;margin-top:10px}
+.rule-cards{display:grid;gap:9px;margin-top:11px}
+.rule-card{padding:14px;border-radius:18px;background:#fff;border:1px solid #ead8df;box-shadow:0 7px 18px rgba(91,38,61,.06)}
+.rule-card.inactive{opacity:.56}.rule-card.partner{background:#f8f3f6}
+.rule-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.rule-top strong{font-family:Georgia,serif;font-size:17px;color:#63283f}.rule-meta{display:flex;flex-wrap:wrap;gap:5px;margin:7px 0}
+.rule-chip{display:inline-flex;padding:5px 8px;border-radius:999px;background:#f3e6ec;color:#765163;font-size:9px;font-weight:800}
+.rule-card p{font-size:12px;color:#806a74;margin:6px 0 0}
+.rule-actions{display:flex;gap:6px;margin-top:10px}.rule-actions button{padding:7px 9px;font-size:10px}
+.routine-check{display:flex;align-items:center;gap:9px;margin-top:9px;padding:9px 10px;border-radius:13px;background:#f8f0f4}.routine-check input{width:21px;height:21px;accent-color:#d85f86}
+.shared-banner{padding:11px 12px;border-radius:15px;background:#eef7f1;color:#4d725a;font-size:11px;margin-top:10px}
+.partner-empty-card{padding:13px;border-radius:16px;background:#f7f1f4;color:#907985;font-size:11px}
+.after-pref-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.after-pref{background:#f3e7ec;color:#623147}.after-pref.on{background:linear-gradient(135deg,#ffdce7,#e8e0ff);outline:2px solid #d899b1}
+.after-scale{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}.after-scale input{width:100%}
+.after-summary{padding:13px;border-radius:17px;background:linear-gradient(135deg,#fff4f7,#f1ebff);margin-top:10px}
+.after-history-card{padding:13px;border-radius:17px;background:#fff;border:1px solid #ead8df;margin-top:8px}
+.after-history-card .top{display:flex;justify-content:space-between;gap:9px}.after-history-card strong{color:#672b42}.after-history-card small{color:#907681}.after-history-card p{font-size:11px;margin:6px 0}.after-history-card .chips{display:flex;flex-wrap:wrap;gap:4px}.after-history-card .chips span{padding:4px 7px;border-radius:999px;background:#f3e8ed;font-size:9px}
+.after-mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.after-mood{padding:9px 3px;background:#f4e9ee;color:#674457}.after-mood.on{background:#e7ddfa;color:#663e83;outline:2px solid #c9a9e0}
+.share-toggle{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:15px;background:#f7f0f4;margin-top:10px}.share-toggle input{width:22px;height:22px;accent-color:#d85f86}
+.partner-aftercare{padding:13px;border-radius:17px;background:linear-gradient(135deg,#eef8f1,#f6efff);margin-top:10px}
+.home-card-badge{display:inline-flex;margin-top:6px;padding:4px 7px;border-radius:999px;background:#f5e6ec;color:#8a4d65;font-size:9px;font-weight:800}
+@media(max-width:480px){.rules-toolbar{grid-template-columns:1fr}.after-pref-grid{grid-template-columns:1fr 1fr}.after-mood-grid{grid-template-columns:repeat(5,1fr)}}
+
+
+/* Revision 10: portable account creation */
+.create-feedback{
+  min-height:18px;
+  margin-top:9px;
+  text-align:center;
+  font-size:12px;
+  font-weight:700;
+  color:#9d4868
+}
+.create-feedback.good{color:#427454}
+.compat-note{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:#fff7e8;
+  color:#80632e;
+  font-size:10px;
+  line-height:1.4
+}
+
+</style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 22C31 18 18 32 23 51c5 20 18 35 27 39 9-4 22-19 27-39 5-19-8-33-27-29Z' fill='%23ed668c'/%3E%3Cpath d='M49 23c-8-13-16-10-22-7 7 2 11 6 14 12M51 23c8-13 16-10 22-7-7 2-11 6-14 12M50 22c0-9 5-14 10-17-1 8-4 13-10 17Z' fill='%2370a86d'/%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app">
+<div id="authV3" class="auth-overlay">
+  <div class="auth-card">
+    <div class="auth-logo">🍓</div><div class="eyebrow" style="text-align:center;color:#b44b6d">PRIVATE · LOCAL · BERRY</div><h2>Berry Haven</h2><p class="muted" style="text-align:center">Choose a local account, or create another one for testing.</p>
+    <div class="auth-tabs"><button id="loginTabV3" class="active">Log in</button><button id="createTabV3">Create account</button></div>
+    <div id="loginPaneV3"><div id="accountListV3" class="account-list"></div><div id="loginFormV3" hidden><div class="panelhead"><h3 id="loginNameV3">Account</h3><button id="backAccountsV3" class="soft">Back</button></div><label>Password<input id="loginPasswordV3" type="password" autocomplete="current-password"></label><button id="loginButtonV3" style="width:100%">Log in</button><div id="loginOops" class="login-oops"></div></div></div>
+    <div id="createPaneV3" hidden><label>Account name<input id="newNameV3" maxlength="40" autocomplete="username" placeholder="e.g. Caregiver Test"></label><label>Role<select id="newRoleV3"><option value="caregiver">Caregiver</option><option value="little">Little</option></select></label><p class="muted tiny">Role is locked after account creation. Log out to make a second account for the other side.</p><label>Password<input id="newPasswordV3" type="password" minlength="6" autocomplete="new-password" placeholder="At least 6 characters"></label><strong>Choose a 4-Berry quick unlock</strong><div class="combo-grid"><button class="combo-berry" data-create-v3="1" data-n="1"><span>1</span></button><button class="combo-berry" data-create-v3="2" data-n="2"><span>2</span></button><button class="combo-berry" data-create-v3="3" data-n="3"><span>3</span></button><button class="combo-berry" data-create-v3="4" data-n="4"><span>4</span></button><button class="combo-berry" data-create-v3="5" data-n="5"><span>5</span></button><button class="combo-berry" data-create-v3="6" data-n="6"><span>6</span></button></div><div id="createDotsV3" class="combo-dots"></div><div class="inline"><button id="clearCreateV3" class="soft">Clear</button><button id="createAccountV3" style="flex:1">Create account</button></div>
+<div id="createFeedback" class="create-feedback"></div>
+<div id="createCompatNote" class="compat-note" hidden>Compatibility security mode is being used because this viewer does not expose Web Crypto. For the strongest browser security and most reliable storage, open Berry Haven in Chrome/Safari from an HTTPS website.</div></div>
+  </div>
+</div>
+<div id="quickLockV3" class="quicklock" hidden><div class="quicklock-card"><div class="auth-logo">🍓</div><div class="eyebrow" style="text-align:center;color:#b44b6d">BERRY LOCK</div><h2 id="quickTitleV3">Welcome back</h2><p class="muted" style="text-align:center">Tap your four berries, or use your password.</p><div class="combo-grid"><button class="combo-berry" data-unlock-v3="1" data-n="1"><span>1</span></button><button class="combo-berry" data-unlock-v3="2" data-n="2"><span>2</span></button><button class="combo-berry" data-unlock-v3="3" data-n="3"><span>3</span></button><button class="combo-berry" data-unlock-v3="4" data-n="4"><span>4</span></button><button class="combo-berry" data-unlock-v3="5" data-n="5"><span>5</span></button><button class="combo-berry" data-unlock-v3="6" data-n="6"><span>6</span></button></div><div id="unlockDotsV3" class="combo-dots"></div><div class="inline"><button id="clearUnlockV3" class="soft">Clear</button><input id="quickPasswordV3" type="password" placeholder="Or password"><button id="quickUnlockV3">Unlock</button></div><div id="quickOops" class="login-oops"></div></div></div>
+
+<header class="topbar">
+  <div>
+    <div id="modeLabel" class="eyebrow">PRIVATE CARE · CONSENT · CONNECTION</div>
+    <h1 id="title">Berry Haven</h1>
+    <div class="statusline"><span id="statusDot" class="dot"></span><span id="statusText">Local mode</span></div>
+  </div>
+  <button id="berryButton" class="berry-button" aria-label="Enter Berry Safe Space">🍓</button>
+</header>
+
+<main>
+<section id="adultHome" class="page active adult-page">
+  <div class="hero"><div><span class="pill">18+ private space</span><h2>Care, consent and connection</h2><p>Adult tools live here. Talks is in the bottom bar, so the home screen stays clean and focused.</p></div></div>
+  <div class="grid two">
+    <button class="card navcard" data-page="consent"><span class="icon">♡</span><span><strong>Consent & Boundaries</strong><small>Separate Yes, Maybe and No lists, plus your partner's read-only copy.</small></span></button>
+    <button class="card navcard" data-page="planner"><span class="icon">✧</span><span><strong>Scene Planner</strong><small>Adult-only planning and aftercare preparation.</small></span></button>
+    <button class="card navcard" data-page="rules"><span class="icon">◇</span><span><strong>Rules & Routines</strong><small>Organise shared rules, recurring routines, ownership and completion.</small><span class="home-card-badge">ADULT TOOL · ALWAYS HERE</span></span></button>
+    <button class="card navcard" data-page="aftercare"><span class="icon">☼</span><span><strong>Aftercare</strong><small>Save your preferences, complete check-ins and optionally share them with your partner.</small><span class="home-card-badge">ADULT TOOL · ALWAYS HERE</span></span></button>
+  </div>
+  <div class="panel"><div class="panelhead"><h3>Today</h3><span id="todayCount" class="muted">0 of 3</span></div>
+    <label class="check"><input type="checkbox" data-today="checkin"><span>Check in with your partner</span></label>
+    <label class="check"><input type="checkbox" data-today="boundaries"><span>Review today's boundaries</span></label>
+    <label class="check"><input type="checkbox" data-today="aftercare"><span>Plan aftercare</span></label>
+  </div>
+</section>
+
+<section id="adultChat" class="page adult-page">
+  <div class="panel"><h2>Adult Talks</h2><p class="muted">Images, files, normal emojis and adult BerryMojis are available here. Only your own messages can be edited or deleted.</p></div>
+  <div id="adultChatThread" class="chat-v3"></div>
+  <div class="composer-shell"><div id="adultPicker" class="picker-v3" hidden></div>
+    <form id="adultChatForm" class="composer-v3"><button type="button" class="round" data-picker="adult">☺</button><button type="button" class="round" data-file="adult">▧</button><input id="adultChatInput" maxlength="2000" placeholder="Write to your partner…"><button class="send">Send</button></form>
+    <input id="adultFile" type="file" accept="image/*,.pdf,.txt,.doc,.docx" hidden>
+  </div>
+</section>
+
+<section id="consent" class="page adult-page"><div class="panel"><h2>Consent & Boundaries</h2><p class="muted">Your lists are yours to edit. Your partner's lists are shown beside them and are read-only.</p>
+  <div class="consent-tabs-v3"><button class="yes active" data-consent-tab="yes">♡ YES</button><button class="maybe" data-consent-tab="maybe">✦ MAYBE</button><button class="no" data-consent-tab="no">◇ NO</button></div>
+  <div id="consentExplain" class="consent-explain"></div>
+  <div class="consent-columns"><div class="consent-box"><h3>My list</h3><textarea id="myConsentText" placeholder="One item per line…"></textarea><button id="saveConsent" class="primary" style="width:100%;margin-top:8px">Save & share</button></div><div class="consent-box partner"><h3 id="partnerConsentTitle">Partner's list</h3><div id="partnerConsentText" class="partner-readonly partner-empty">Pair with your partner to see their list.</div></div></div>
+</div></section>
+
+<section id="planner" class="page adult-page"><div class="panel"><h2>Scene Planner</h2><label>Plan title<input id="planTitle"></label><label>Check-in interval (minutes)<input id="planInterval" type="number" min="1" max="240" value="15"></label><label>Agreed boundaries<textarea id="planBoundaries" rows="4"></textarea></label><label>Aftercare plan<textarea id="planAftercare" rows="4"></textarea></label><button id="savePlan" class="primary">Save plan</button></div></section>
+
+<section id="rules" class="page adult-page">
+  <div class="panel">
+    <h2>Rules & Routines</h2>
+    <p class="muted">A proper home for adult agreements and recurring relationship routines. Your own entries are editable. Connected partner entries are read-only.</p>
+
+    <div class="section-tabs">
+      <button id="rulesTab" class="active">◇ Shared Rules</button>
+      <button id="routinesTab">✧ Routines</button>
+    </div>
+
+    <div id="rulesPane">
+      <div class="rule-form">
+        <h3 id="ruleFormTitle">Add a Rule</h3>
+        <label>Rule title<input id="ruleTitle" maxlength="100" placeholder="e.g. Check in before changing plans"></label>
+        <label>Details<textarea id="ruleDetails" rows="3" placeholder="What does this agreement mean to you both?"></textarea></label>
+        <div class="rules-toolbar">
+          <label>Category<select id="ruleCategory"><option>Communication</option><option>Boundaries</option><option>Intimacy</option><option>Relationship</option><option>Household</option><option>Other</option></select></label>
+          <label>Applies to<select id="ruleOwner"><option value="both">Both of us</option><option value="me">Me</option><option value="partner">My partner</option></select></label>
+        </div>
+        <div class="inline"><button id="saveRule" style="flex:1">Save Rule</button><button id="cancelRuleEdit" class="soft" hidden>Cancel edit</button></div>
+      </div>
+      <div id="myRulesList" class="rule-cards"></div>
+      <div class="shared-banner">When paired, your active shared rules are mirrored to your partner as read-only reference cards.</div>
+      <h3 style="margin-top:15px">Partner's Shared Rules</h3>
+      <div id="partnerRulesList" class="rule-cards"></div>
+    </div>
+
+    <div id="routinesPane" hidden>
+      <div class="routine-form">
+        <h3 id="routineFormTitle">Add a Routine</h3>
+        <label>Routine name<input id="routineTitle" maxlength="100" placeholder="e.g. Sunday relationship check-in"></label>
+        <label>Notes<textarea id="routineDetails" rows="3" placeholder="Anything useful about how you want this routine to work"></textarea></label>
+        <div class="rules-toolbar">
+          <label>How often<select id="routineCadence"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="as-needed">As needed</option></select></label>
+          <label>Who<select id="routineOwner"><option value="both">Both of us</option><option value="me">Me</option><option value="partner">My partner</option></select></label>
+        </div>
+        <div class="inline"><button id="saveRoutine" style="flex:1">Save Routine</button><button id="cancelRoutineEdit" class="soft" hidden>Cancel edit</button></div>
+      </div>
+      <div id="myRoutinesList" class="rule-cards"></div>
+      <h3 style="margin-top:15px">Partner's Shared Routines</h3>
+      <div id="partnerRoutinesList" class="rule-cards"></div>
+    </div>
+  </div>
+</section>
+
+<section id="aftercare" class="page adult-page">
+  <div class="panel">
+    <h2>Aftercare</h2>
+    <p class="muted">Keep a reusable picture of what usually helps, then make a fresh check-in whenever you need one.</p>
+
+    <div class="after-plan">
+      <h3>My Usual Aftercare</h3>
+      <p class="muted tiny">These stay saved between check-ins.</p>
+      <div id="afterPrefs" class="after-pref-grid">
+        <button class="after-pref" data-pref="Water">💧 Water</button>
+        <button class="after-pref" data-pref="Snack">🍓 Snack</button>
+        <button class="after-pref" data-pref="Warmth">🧣 Warmth</button>
+        <button class="after-pref" data-pref="Cuddles">♡ Cuddles</button>
+        <button class="after-pref" data-pref="Quiet">☁ Quiet</button>
+        <button class="after-pref" data-pref="Reassurance">💬 Reassurance</button>
+        <button class="after-pref" data-pref="Shower">✦ Shower</button>
+        <button class="after-pref" data-pref="Sleep">☾ Sleep</button>
+      </div>
+      <label>Things that usually help me<textarea id="afterPrefNotes" rows="3" placeholder="Favourite drink, blanket, amount of touch, what reassurance helps…"></textarea></label>
+      <label>Things to avoid afterwards<textarea id="afterAvoidNotes" rows="3" placeholder="Anything that tends to make aftercare harder…"></textarea></label>
+      <button id="saveAfterPrefs">Save My Aftercare Preferences</button>
+    </div>
+
+    <div class="panel" style="box-shadow:none;margin-top:14px">
+      <h3>New Check-In</h3>
+      <label>How are you feeling?</label>
+      <div class="after-mood-grid">
+        <button class="after-mood" data-aftermood="Calm">☺</button>
+        <button class="after-mood" data-aftermood="Tender">♡</button>
+        <button class="after-mood" data-aftermood="Tired">☾</button>
+        <button class="after-mood" data-aftermood="Wobbly">≈</button>
+        <button class="after-mood" data-aftermood="Overwhelmed">☁</button>
+      </div>
+
+      <label>How settled do you feel?</label>
+      <div class="after-scale"><span>1</span><input id="settledRange" type="range" min="1" max="5" value="3"><strong id="settledValue">3/5</strong></div>
+
+      <label>What do you need right now?</label>
+      <div id="afterNeedOptions" class="aftercare-options">
+        <button class="after-option" data-after="Water">💧 Water</button><button class="after-option" data-after="Warmth">🧣 Warmth</button>
+        <button class="after-option" data-after="Snack">🍓 Snack</button><button class="after-option" data-after="Cuddles">♡ Cuddles</button>
+        <button class="after-option" data-after="Quiet">☁ Quiet</button><button class="after-option" data-after="Talk">💬 Talk</button>
+        <button class="after-option" data-after="Shower">✦ Shower</button><button class="after-option" data-after="Sleep">☾ Sleep</button>
+      </div>
+
+      <label>What helped?<textarea id="afterWhatHelped" rows="3" placeholder="Optional…"></textarea></label>
+      <label>Anything to change next time?<textarea id="afterChangeNext" rows="3" placeholder="Optional…"></textarea></label>
+      <label>Anything else to remember?<textarea id="aftercareNotes" rows="3" placeholder="Optional private note…"></textarea></label>
+
+      <label class="share-toggle"><input id="shareAftercare" type="checkbox"><span><strong>Share this check-in with my connected partner</strong><br><small>Only this check-in is shared. Your saved history remains local.</small></span></label>
+      <button id="saveAftercare" style="width:100%;margin-top:10px">Save Check-In</button>
+    </div>
+
+    <div id="partnerAftercareWrap" class="partner-aftercare">
+      <h3>Partner's Latest Shared Check-In</h3>
+      <div id="partnerAftercare">Nothing has been shared yet.</div>
+    </div>
+
+    <div class="panelhead" style="margin-top:18px"><h3>My Recent Check-Ins</h3><button id="clearAftercare" class="soft">Clear History</button></div>
+    <div id="afterHistory" class="history-v3"></div>
+  </div>
+</section>
+
+<section id="littleHome" class="page safe-page">
+  <div id="littleView"><div class="safehero"><div class="mascot">🍓</div><div><div class="eyebrow">BERRY SAFE SPACE</div><h2>You're safe here ♡</h2><p>Adult things are tucked away. This space is for comfort, feelings, play and gentle connection.</p></div></div>
+    <div class="return-hint"><b>🍓</b><span>When you're ready for Adult Space again, tap the Berry in the top-right.</span></div>
+    <div class="panel safecard"><h3>How do you feel right now?</h3><div id="feelingsGrid" class="feelings-v3"></div><p id="feelingText" class="muted">Choose whatever feels closest. There isn't a wrong answer.</p></div>
+    <div class="grid two"><button class="card navcard safecard" data-page="littleTasks"><span class="icon">✦</span><span><strong>Berry Adventures</strong><small>Tiny cosy wins with little celebrations.</small></span></button><button class="card navcard safecard" data-page="miniGames"><span class="icon">☆</span><span><strong>Berry Arcade</strong><small>Pairs, Word Garden and Berry Four.</small></span></button><button class="card navcard safecard" data-page="softMusic"><span class="icon">♫</span><span><strong>Music & Sounds</strong><small>Music streams and soothing sounds.</small></span></button><button class="card navcard safecard" data-page="berryTV"><span class="icon">▣</span><span><strong>Berry TV</strong><small>Ready-made legal free cartoon links.</small></span></button><button class="card navcard safecard" data-page="littleTalks"><span class="icon">♡</span><span><strong>Little Talks</strong><small>Safe-space chat with images and BerryMojis.</small></span></button><button class="card navcard safecard" data-page="comfortCorner"><span class="icon">☁</span><span><strong>Comfort Corner</strong><small>Grounding and gentle self-checks.</small></span></button></div>
+  </div>
+  <div id="caregiverView" hidden><div class="safehero"><div class="mascot">🍓</div><div><div class="eyebrow">CAREGIVER · BERRY SAFE SPACE</div><h2>Your partner is in Safe Space</h2><p>Adult tools are hidden here too. You can see their shared feeling and use Little Talks.</p></div></div><div class="panel safecard"><h3>Shared feeling</h3><div id="caregiverRequest" class="caregiverbox">No feeling has been shared yet.</div></div><div class="grid two"><button class="card navcard safecard" data-page="littleTalks"><span class="icon">♡</span><span><strong>Little Talks</strong><small>Reply from the caregiver side correctly.</small></span></button><button class="card navcard safecard" data-page="comfortCorner"><span class="icon">☁</span><span><strong>Comfort Guide</strong><small>Grounding prompts and gentle checks.</small></span></button></div></div>
+</section>
+
+<section id="littleTalks" class="page safe-page"><div class="panel safecard"><h2>Little Talks</h2><p class="muted">No quick-needs strip here now. Chat normally, send pictures, files, emojis or safe BerryMojis.</p></div><div id="littleChatThread" class="chat-v3"></div><div class="composer-shell"><div id="littlePicker" class="picker-v3" hidden></div><form id="littleChatForm" class="composer-v3"><button type="button" class="round" data-picker="little">☺</button><button type="button" class="round" data-file="little">▧</button><input id="littleChatInput" maxlength="1500" placeholder="Write something…"><button class="send">Send</button></form><input id="littleFile" type="file" accept="image/*,.pdf,.txt,.doc,.docx" hidden></div></section>
+
+<section id="littleTasks" class="page safe-page little-only"><div class="panel safecard"><div class="panelhead"><h2>Berry Adventures</h2><span class="berrycount">🍓 <b id="berryCount">0</b> wallet</span></div><p class="muted">A few starter self-care adventures are waiting from the beginning. Each completed adventure adds 3 Berries to the same wallet you can spend in the Prize Garden.</p><div class="inline"><input id="littleTaskInput" placeholder="Add a tiny adventure…"><button id="addLittleTask">Add ✦</button></div><div id="littleTasksList" class="task-list-v3"></div></div></section>
+
+<section id="miniGames" class="page safe-page little-only"><div class="panel safecard">
+  <div class="wallet-banner">
+    <div><small>YOUR BERRY WALLET</small><strong><span id="walletBerries">0</span> Berries</strong><small><span id="lifetimeBerries">0</span> earned altogether</small></div>
+    <div class="wallet-berry">🍓</div>
+  </div>
+  <h2>Berry Arcade</h2>
+  <p class="muted">Play games, collect Berries, then spend them on little digital treats. Your wallet stays at the top of Play.</p>
+  <button id="openPrizeGarden" class="prize-button">✦ Open the Prize Garden · Spend Berries 🍓</button>
+
+  <div class="game-tabs v5">
+    <button class="active" data-game="pairs">Berry Pairs</button>
+    <button data-game="words">Word Garden</button>
+    <button data-game="four">Berry Four</button>
+    <button data-game="colour">Colour by Numbers</button>
+  </div>
+
+  <div id="gamePairs" class="gamepane">
+    <div class="game-statbar">
+      <div class="mini-stat"><strong id="pairsBerries">0 🍓</strong><small>Earned here</small></div>
+      <div class="mini-stat"><strong id="pairsWins">0</strong><small>Games won</small></div>
+      <div class="mini-stat"><strong id="pairBest">—</strong><small>Best time</small></div>
+    </div>
+    <p class="muted">Match the 20 cosy cards. Finish a board to earn 20 Berries.</p>
+    <div id="memoryGame" class="memory-v3"></div>
+    <div class="panelhead" style="margin-top:10px"><span id="pairTimer" class="berrycount">0.0s</span><button id="resetGame" class="soft">Shuffle</button></div>
+  </div>
+
+  <div id="gameWords" class="gamepane" hidden>
+    <div class="game-statbar">
+      <div class="mini-stat"><strong id="wordBerries">0 🍓</strong><small>Earned here</small></div>
+      <div class="mini-stat"><strong id="wordWins">0</strong><small>Gardens found</small></div>
+      <div class="mini-stat"><strong id="wordBest">—</strong><small>Best time</small></div>
+    </div>
+    <div class="topic-select" id="wordTopics"></div>
+    <p class="muted">Find six words from your chosen topic. New topics can be unlocked in the Prize Garden.</p>
+    <div id="wordList" class="word-list"></div><div id="wordGrid" class="word-grid"></div>
+    <div class="panelhead" style="margin-top:10px"><span id="wordTimer" class="berrycount">0.0s</span><button id="newWords" class="soft">New garden</button></div>
+  </div>
+
+  <div id="gameFour" class="gamepane" hidden>
+    <div class="game-statbar">
+      <div class="mini-stat"><strong id="fourBerries">0 🍓</strong><small>Earned here</small></div>
+      <div class="mini-stat"><strong id="fourWins">0</strong><small>Berry wins</small></div>
+      <div class="mini-stat"><strong id="fourBest">—</strong><small>Fastest win</small></div>
+    </div>
+    <p class="muted">You are the Berry. The local bot is the Star. A win earns 30 Berries, a cosy draw earns 8.</p>
+    <div id="fourStatus" class="game-status">Your turn 🍓</div><div id="connectBoard" class="connect-board"></div>
+    <div class="panelhead" style="margin-top:10px"><span id="fourTimer" class="berrycount">0.0s</span><button id="newFour" class="soft">New game</button></div>
+  </div>
+
+  <div id="gameColour" class="gamepane" hidden>
+    <div class="game-statbar">
+      <div class="mini-stat"><strong id="colourBerries">0 🍓</strong><small>Earned here</small></div>
+      <div class="mini-stat"><strong id="colourWins">0</strong><small>Pictures finished</small></div>
+      <div class="mini-stat"><strong id="colourBest">—</strong><small>Best time</small></div>
+    </div>
+    <p class="muted">Choose a colour number, then fill the matching squares. Finish a picture to earn 25 Berries. New cosy pictures live in the Prize Garden.</p>
+    <div id="colourPages" class="colour-pages"></div>
+    <div class="colour-wrap"><h3 id="colourTitle" class="colour-title">Strawberry Cottage</h3><div id="colourPalette" class="colour-palette"></div><div id="colourGrid" class="colour-grid"></div></div>
+    <div class="panelhead" style="margin-top:10px"><span id="colourTimer" class="berrycount">0.0s</span><button id="resetColour" class="soft">Start again</button></div>
+  </div>
+</div></section>
+
+<section id="prizeGarden" class="page safe-page little-only"><div class="panel safecard">
+  <div class="wallet-banner"><div><small>PRIZE GARDEN WALLET</small><strong><span id="shopWallet">0</span> Berries</strong><small>Spend them on fun digital unlocks</small></div><div class="wallet-berry">🍓</div></div>
+  <h2>Prize Garden ✦</h2><p class="muted">Everything here is digital and stays with this Little account on this device.</p>
+
+  <h3>New BerryMojis</h3><div id="emojiShop" class="shop-grid"></div>
+  <h3 class="shop-section-title">Word Garden topics</h3><div id="topicShop" class="shop-grid"></div>
+  <h3 class="shop-section-title">Colour-by-Numbers pictures</h3><div id="colourShop" class="shop-grid"></div>
+  <button id="backToArcade" class="soft" style="width:100%;margin-top:14px">← Back to Berry Arcade</button>
+</div></section>
+
+<section id="softMusic" class="page safe-page little-only"><div class="panel safecard">
+  <h2>Calm Music & Soothing Sounds</h2>
+  <p class="muted">No more lo-fi links. Pick something gentle and it plays right here inside Berry Haven.</p>
+
+  <h3>Relaxing music</h3>
+  <div id="musicLocalWarning" class="local-media-warning">Embedded YouTube playback works best when Berry Haven is opened from an HTTPS website rather than directly as a local file.</div>
+  <div class="embed-shell">
+    <div class="embed-ratio">
+      <iframe id="musicFrame" src="https://www.youtube-nocookie.com/embed/77ZozI0rw7w?playsinline=1&rel=0" title="Berry Haven relaxing music player" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <div class="embed-meta"><strong id="musicNowTitle">Piano & Water</strong><small id="musicNowSub">3 hours of gentle piano with water sounds</small></div>
+  </div>
+
+  <div class="stream-picker">
+    <button class="stream-card active" data-music-id="77ZozI0rw7w" data-title="Piano & Water" data-sub="3 hours of gentle piano with water sounds"><span class="stream-icon">💧</span><span><strong>Piano & Water</strong><small>Soft and floaty</small></span></button>
+    <button class="stream-card" data-music-id="Lh3keXRnSc4" data-title="Calm Morning Piano" data-sub="3 hours of light, peaceful piano"><span class="stream-icon">🌸</span><span><strong>Calm Piano</strong><small>Light and peaceful</small></span></button>
+    <button class="stream-card" data-music-id="hsGOT_0L16U" data-title="Sleepy Piano" data-sub="8 hours of slow relaxing sleep music"><span class="stream-icon">🌙</span><span><strong>Sleepy Music</strong><small>Long and very gentle</small></span></button>
+    <button class="stream-card" data-music-id="L6VBHflOeuY" data-title="Ocean Dream" data-sub="Relaxing music with soft ocean waves"><span class="stream-icon">🌊</span><span><strong>Ocean Dream</strong><small>Music and waves</small></span></button>
+  </div>
+  <div class="media-note">Music is played through YouTube's embedded player from the verified Soothing Relaxation channel. You can keep browsing Berry Haven while it plays.</div>
+
+  <h3 style="margin-top:22px">Soothing sounds</h3>
+  <p class="muted">These stay separate from music and play directly inside Berry Haven.</p>
+  <div class="sound-grid-v3">
+    <button data-v3sound="rain">🌧 Rain on the window</button><button data-v3sound="wind">🍃 Soft wind</button>
+    <button data-v3sound="birds">🐦 Morning birds</button><button data-v3sound="car">🚙 Cosy car ride</button>
+    <button data-v3sound="white">☁ White noise</button><button data-v3sound="brown">🧸 Brown noise</button>
+  </div>
+  <label>Soothing sounds volume</label>
+  <div class="sound-meter"><input id="v3Volume" type="range" min="0" max="1" step=".01" value=".32"><output id="v3VolumeValue">32%</output></div>
+  <button id="v3StopSound" class="soft">Stop soothing sounds</button>
+  <div class="sound-help">The volume now changes live while a sound is playing. Each sound uses its own layered audio model instead of sharing the same noise texture.</div>
+</div></section>
+
+<section id="berryTV" class="page safe-page little-only"><div class="panel safecard">
+  <h2>Berry TV</h2>
+  <p class="muted">Cartoons now play inside Berry Haven instead of sending you away to another site.</p>
+  <div id="tvLocalWarning" class="local-media-warning">Embedded cartoons work best when Berry Haven is hosted on HTTPS. A local <code>file://</code> copy can be rejected by YouTube's player.</div>
+
+  <div class="embed-shell">
+    <div class="embed-ratio">
+      <iframe id="tvFrame" src="https://www.youtube-nocookie.com/embed/cWBWvcFcswA?playsinline=1&rel=0" title="Berry TV cartoon player" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <div class="embed-meta"><strong id="tvNowTitle">Peppa Pig</strong><small id="tvNowSub">Official full-episode collection</small></div>
+  </div>
+
+  <div class="stream-picker">
+    <button class="stream-card active" data-tv-id="cWBWvcFcswA" data-title="Peppa Pig" data-sub="Official full-episode collection"><span class="stream-icon">🐷</span><span><strong>Peppa Pig</strong><small>Official full episodes</small></span></button>
+    <button class="stream-card" data-tv-id="OcK2WqXMR-4" data-title="Thomas & Friends" data-sub="Official All Engines Go full-episode stream"><span class="stream-icon">🚂</span><span><strong>Thomas & Friends</strong><small>Full episodes</small></span></button>
+    <button class="stream-card" data-tv-id="HKz4aXT-VSY" data-title="Baby Looney Tunes" data-sub="One hour of games and cosy cartoon fun"><span class="stream-icon">🐰</span><span><strong>Baby Looney Tunes</strong><small>1-hour Cartoonito special</small></span></button>
+    <button class="stream-card" data-tv-id="GX391-wMEeM" data-title="Batwheels" data-sub="A full official Cartoonito episode"><span class="stream-icon">🚗</span><span><strong>Batwheels</strong><small>Full Cartoonito episode</small></span></button>
+  </div>
+  <div class="media-note">Berry TV uses official YouTube uploads in the normal embedded player. Availability, adverts and regional restrictions are controlled by YouTube and the rights holders.</div>
+</div></section>
+
+<section id="comfortCorner" class="page safe-page"><div class="panel safecard">
+  <h2>Comfort Corner</h2><p class="muted">A private little check-in. Nothing here messages your caregiver automatically.</p>
+
+  <div class="comfort-section">
+    <h3>How does your body feel?</h3>
+    <div id="bodyChips" class="comfort-chips">
+      <button class="comfort-chip" data-body="thirsty">💧 Thirsty</button><button class="comfort-chip" data-body="hungry">🍓 Hungry</button>
+      <button class="comfort-chip" data-body="toilet">🌼 Need toilet</button><button class="comfort-chip" data-body="warm">☀ Too warm</button>
+      <button class="comfort-chip" data-body="cold">☁ Too cold</button><button class="comfort-chip" data-body="tired">🌙 Tired</button>
+      <button class="comfort-chip" data-body="sore">♡ Sore / uncomfortable</button>
+    </div>
+    <div id="bodySuggestion" class="comfort-result">Tap anything that feels true and Berry Haven will make a gentle little suggestion.</div>
+  </div>
+
+  <div class="comfort-section">
+    <h3>What feels nicest for touch?</h3>
+    <div class="touch-options">
+      <button class="touch-option" data-touch="cuddles">♡ Cuddles sound nice</button><button class="touch-option" data-touch="hand">✦ Hand-holding only</button>
+      <button class="touch-option" data-touch="none">☁ No touching please</button><button class="touch-option" data-touch="unsure">? I'm not sure yet</button>
+    </div>
+    <div id="touchResult" class="comfort-result">You don't have to decide until you know what feels comfortable.</div>
+  </div>
+
+  <div class="comfort-section breath-area">
+    <h3>Breathing Berry</h3><p class="muted">Follow the Berry for a slow 4 · 2 · 6 breathing rhythm.</p>
+    <div id="breathBerry" class="breath-berry">🍓</div><div id="breathText" class="breath-text">Ready when you are</div>
+    <button id="startBreathing">Start breathing</button> <button id="stopBreathing" class="soft">Stop</button>
+  </div>
+
+  <div class="comfort-section">
+    <h3>5 · 4 · 3 · 2 · 1 grounding</h3>
+    <div id="groundSteps" class="ground-checks">
+      <button class="ground-step" data-ground="see"><span class="bubble">5</span><span>I've noticed five things I can see</span></button>
+      <button class="ground-step" data-ground="feel"><span class="bubble">4</span><span>I've noticed four things I can feel</span></button>
+      <button class="ground-step" data-ground="hear"><span class="bubble">3</span><span>I've noticed three things I can hear</span></button>
+      <button class="ground-step" data-ground="smell"><span class="bubble">2</span><span>I've noticed two things I can smell</span></button>
+      <button class="ground-step" data-ground="taste"><span class="bubble">1</span><span>I've noticed one thing I can taste</span></button>
+    </div>
+    <div class="ground-progress"><i id="groundBar"></i></div><div id="groundResult" class="comfort-result">You can do one step or all five. No rush.</div>
+  </div>
+</div></section>
+
+<section id="moreMenu" class="page"><div class="panel"><h2>More</h2><div class="menu-list-v3">
+  <button class="menu-btn-v3 adult-more" data-page="rules"><span class="menuicon">◇</span><span><strong>Rules & Routines</strong><br><small>Agreements, recurring routines and partner reference</small></span></button>
+  <button class="menu-btn-v3 adult-more" data-page="aftercare"><span class="menuicon">☼</span><span><strong>Aftercare</strong><br><small>Preferences, check-ins and history</small></span></button>
+  <button class="menu-btn-v3" data-page="settings"><span class="menuicon">⚙</span><span><strong>Settings & pairing</strong></span></button>
+  <button id="lockNowV3" class="menu-btn-v3"><span class="menuicon">🔒</span><span><strong>Lock Berry Haven</strong><br><small>Use your Berry combo to get back in</small></span></button>
+  <button id="logoutV3" class="menu-btn-v3"><span class="menuicon">↪</span><span><strong>Log out</strong><br><small>Switch or create another local account</small></span></button>
+</div></div></section>
+
+<section id="settings" class="page"><div class="panel"><h2>Account</h2><div class="panelhead"><div><strong id="v3AccountName"></strong><div id="v3Role" class="muted"></div></div><span class="role-chip">Role locked</span></div><p class="muted tiny">To test the other role, log out and create a second local account. You don't have to delete this one.</p></div><div class="panel">
+  <h3>Berry Pairing 🍓</h3>
+  <p class="muted">A simpler two-phone connection. Berry Haven handles whether the pasted code is an invite or a reply.</p>
+
+  <div id="pairStatus" class="pair-status-v3">Not connected</div>
+
+  <div class="pair-steps">
+    <div class="pair-step"><b>1</b>Create invite</div>
+    <div class="pair-step"><b>2</b>Partner accepts</div>
+    <div class="pair-step"><b>3</b>Paste reply</div>
+  </div>
+
+  <div class="pair-hero">
+    <div class="eyebrow" style="text-align:center;color:#9c5572">BERRY VERIFICATION CODE</div>
+    <div id="berryPairShortCode" class="psn-code">BERRY-••••-••••</div>
+    <p class="muted tiny" style="text-align:center;margin-bottom:0">Both phones can compare this little code to make sure they are pairing the same session.</p>
+  </div>
+
+  <button id="berryCreateInvite" style="width:100%">Create Pairing Invite 🍓</button>
+
+  <div id="berryInviteOut" class="pair-response" hidden>
+    <div class="panelhead"><span class="pair-type">Your invite</span><button id="berryCopyInvite" class="soft">Copy Invite</button></div>
+    <textarea id="berryInviteText" readonly></textarea>
+    <p class="muted tiny">Send this invite privately to your partner. They paste it into the box below and tap Accept.</p>
+  </div>
+
+  <label style="margin-top:15px">Paste partner invite or reply
+    <textarea id="berryPairPaste" class="pair-paste" placeholder="Press and hold here, paste the Berry Haven code, then tap Accept / Connect."></textarea>
+  </label>
+  <button id="berryAcceptPaste" style="width:100%">Accept / Connect ♡</button>
+
+  <div id="berryReplyOut" class="pair-response" hidden>
+    <div class="panelhead"><span class="pair-type">Reply ready</span><button id="berryCopyReply" class="soft">Copy Reply</button></div>
+    <textarea id="berryReplyText" readonly></textarea>
+    <p class="muted tiny">Send this reply back to the person who created the invite. They paste it into the same box above and tap Accept / Connect.</p>
+  </div>
+
+  <div class="pair-actions">
+    <button id="berryClearPairing" class="soft">Clear pairing boxes</button>
+    <button id="disconnectRtc" class="danger">Disconnect partner</button>
+  </div>
+
+  <div class="pair-fineprint"><strong>Why is the shared invite longer than the Berry code?</strong><br>The short <code>BERRY-XXXX-XXXX</code> code is a verification code. A truly short code-only connection would need a small Berry Haven signalling server to look up the WebRTC handshake. This standalone one-file build keeps that service out of the equation.</div>
+</div><div class="panel"><h3>Local privacy</h3><p class="muted">This account's messages, boundaries, game progress and settings are stored in this browser on this device. Nothing is uploaded to a Berry Haven server by this standalone file.</p><button id="exportData" class="soft">Export this account's local data</button></div>
+
+<div class="account-danger-zone">
+  <h3>Account & Local Data</h3>
+  <p class="muted tiny">These controls only affect this browser on this device. They do not erase anything already stored on a partner's phone.</p>
+
+  <div class="account-action-card">
+    <strong>Remove this account's local data</strong>
+    <small>Keeps the account and password, but clears its messages, attachments, boundaries, plans, Berry Adventures, game progress, Berry Wallet, Prize Garden unlocks and other saved app data. It starts the account fresh.</small>
+    <button id="clearCurrentAccountData" class="erase-local-btn">Clear Local Data</button>
+  </div>
+
+  <div class="account-action-card">
+    <strong>Delete this local account</strong>
+    <small>Deletes this account's login, password hash, Berry combination and all of its Berry Haven data from this device, then returns to the login screen.</small>
+    <button id="deleteCurrentAccount" class="delete-account-btn">Delete Account</button>
+  </div>
+</div></section>
+</main>
+
+<nav class="bottomnav"><button data-v3nav="home"><b>⌂</b><span>Home</span></button><button data-v3nav="talk"><b>♡</b><span>Talks</span></button><button data-v3nav="middle"><b>◇</b><span>Boundaries</span></button><button data-v3nav="fourth"><b>✧</b><span>Planner</span></button><button data-v3nav="more"><b>☰</b><span>More</span></button></nav>
+
+
+
+<div id="transition" class="transition" aria-hidden="true"><div class="wave w1"></div><div class="wave w2"></div><span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">🍓</span><span class="spark s4">🍃</span><div class="tcard"><div class="tberry">🍓</div><span>Entering</span><h2>Berry Safe Space</h2><p>🛡 Adult content hidden</p><p>♡ Loading comfort features…</p><div class="progress"><i></i></div></div></div>
+<div id="exittrans" class="exittrans"><div style="text-align:center;color:#7b2341"><div style="font-size:70px">🍓</div><h2>Grown-Up Time</h2><p>Bringing the adult space back gently…</p></div></div>
+<div id="toast" class="toast"></div>
+</div>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const enc=new TextEncoder();
+const clone=o=>JSON.parse(JSON.stringify(o));
+const ACCOUNTS_KEY='berryHavenAccountsV3';
+let accounts=loadJSON(ACCOUNTS_KEY,[]), currentAccount=null, state=null;
+let selectedLogin=null,createCombo=[],unlockCombo=[],lockPending=false;
+let pc=null,dc=null,partner=null,currentConsent='yes',afterSelected=new Set(),afterMood='',ruleEditId='',routineEditId='',rulesMode='rules',berryPairMode='',berryPairOfferText='';
+let audioCtx=null,audioNodes=[],soundTimers=[],game=null,wordGame=null,fourGame=null,colourGame=null,pairTimerHandle=null,breathTimer=null,breathStep=0;
+const defaults=()=>({safe:false,name:currentAccount?.name||'',role:currentAccount?.role||'little',feeling:'',partnerFeeling:'',today:{},consentOwn:{yes:'',maybe:'',no:''},consentPartner:{name:'',yes:'',maybe:'',no:''},plan:{title:'',interval:15,boundaries:'',aftercare:''},adultRules:['Check in before adult play','Safewords and stop signals are always respected'],
+rulesHub:{rules:[
+{id:'starter-rule-1',title:'Check in before changing an agreed plan',details:'Talk before changing something you already agreed together.',category:'Communication',owner:'both',active:true},
+{id:'starter-rule-2',title:'Safewords and stop signals are always respected',details:'Stopping or changing pace is always allowed.',category:'Boundaries',owner:'both',active:true}
+],routines:[
+{id:'starter-routine-1',title:'Relationship check-in',details:'Make space to ask how things are feeling for both of you.',cadence:'weekly',owner:'both',active:true,lastDone:0}
+],partnerRules:[],partnerRoutines:[]},
+aftercarePrefs:{choices:[],helpNotes:'',avoidNotes:''},afterHistory:[],partnerAftercare:null,littleTasks:[
+{text:'Have a drink of water',done:false},{text:'Have a little snack if you need one',done:false},{text:'Use the toilet if you need to',done:false},{text:'Wash your face or freshen up',done:false},{text:'Brush your teeth',done:false},{text:'Put on something comfy',done:false},{text:'Find your cosiest blanket',done:false},{text:'Cuddle a plushie or pillow',done:false},{text:'Take five slow breaths',done:false},{text:'Have a quiet rest for a few minutes',done:false},{text:'Pick something comforting to watch or listen to',done:false},{text:'Tidy away just one little thing',done:false}
+],berries:0,lifetimeBerries:0,unlocks:{wordTopics:['cosy'],colourPages:['cottage'],berryMojis:[]},comfort:{body:[],touch:'',ground:[]},stats:{score:0,pairsWins:0,pairsBest:0,pairsBerries:0,wordWins:0,wordBest:0,wordBerries:0,fourWins:0,fourBest:0,fourBerries:0,fourDraws:0,fourLosses:0,colourWins:0,colourBest:0,colourBerries:0},adultChat:[],littleChat:[]});
+function loadJSON(k,f){try{return JSON.parse(localStorage.getItem(k)||'null')??f}catch{return f}}
+function saveAccounts(){
+  localStorage.setItem(ACCOUNTS_KEY,JSON.stringify(accounts));
+  const verify=JSON.parse(localStorage.getItem(ACCOUNTS_KEY)||'[]');
+  if(!Array.isArray(verify)||verify.length!==accounts.length)throw new Error('Account storage verification failed')
+}
+function stateKey(){return 'berryHavenStateV3:'+currentAccount.id}
+function loadState(){const s=loadJSON(stateKey(),null),v=s?Object.assign(defaults(),s,{name:currentAccount.name,role:currentAccount.role}):defaults();return migrateV5(v)}
+function migrateV5(v){
+  v.stats=v.stats||{};const S={score:0,pairsWins:0,pairsBest:0,pairsBerries:0,wordWins:0,wordBest:0,wordBerries:0,fourWins:0,fourBest:0,fourBerries:0,fourDraws:0,fourLosses:0,colourWins:0,colourBest:0,colourBerries:0};v.stats=Object.assign(S,v.stats);
+  if(!v._v5){v.berries=(v.berries||0)+(v.stats.score||0);v.lifetimeBerries=Math.max(v.berries||0,v.lifetimeBerries||0);v.stats.score=0;v._v5=true}
+  v.unlocks=Object.assign({wordTopics:['cosy'],colourPages:['cottage'],berryMojis:[]},v.unlocks||{});
+  if(!v.unlocks.wordTopics.includes('cosy'))v.unlocks.wordTopics.unshift('cosy');if(!v.unlocks.colourPages.includes('cottage'))v.unlocks.colourPages.unshift('cottage');
+  v.comfort=Object.assign({body:[],touch:'',ground:[]},v.comfort||{});
+  v.lifetimeBerries=v.lifetimeBerries||v.berries||0;
+  const starters=['Have a drink of water','Have a little snack if you need one','Use the toilet if you need to','Wash your face or freshen up','Brush your teeth','Put on something comfy','Find your cosiest blanket','Cuddle a plushie or pillow','Take five slow breaths','Have a quiet rest for a few minutes','Pick something comforting to watch or listen to','Tidy away just one little thing'];
+  v.littleTasks=v.littleTasks||[];const have=new Set(v.littleTasks.map(x=>x.text));starters.forEach(t=>{if(!have.has(t))v.littleTasks.push({text:t,done:false})});
+  v.rulesHub=v.rulesHub||{rules:[],routines:[],partnerRules:[],partnerRoutines:[]};
+  v.rulesHub.rules=v.rulesHub.rules||[];v.rulesHub.routines=v.rulesHub.routines||[];v.rulesHub.partnerRules=v.rulesHub.partnerRules||[];v.rulesHub.partnerRoutines=v.rulesHub.partnerRoutines||[];
+  if(!v._rulesV9){
+    (v.adultRules||[]).forEach((txt,i)=>{if(!v.rulesHub.rules.some(r=>r.title===txt))v.rulesHub.rules.push({id:'legacy-'+i+'-'+rid(),title:txt,details:'',category:'Relationship',owner:'both',active:true})});
+    if(!v.rulesHub.routines.length)v.rulesHub.routines.push({id:'routine-'+rid(),title:'Relationship check-in',details:'Make space to ask how things are feeling for both of you.',cadence:'weekly',owner:'both',active:true,lastDone:0});
+    v._rulesV9=true
+  }
+  v.aftercarePrefs=Object.assign({choices:[],helpNotes:'',avoidNotes:''},v.aftercarePrefs||{});
+  v.partnerAftercare=v.partnerAftercare||null;
+  return v
+}
+function save(sync=false){if(!currentAccount||!state)return;try{localStorage.setItem(stateKey(),JSON.stringify(state))}catch(e){toast('This browser storage is getting full. Remove large attachments.')}if(sync)sendSnapshot()}
+function rid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,9)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>e.classList.remove('show'),1900)}
+function dots(sel,n){const e=$(sel);e.innerHTML='';for(let i=0;i<4;i++){const d=document.createElement('i');d.className='combo-dot '+(i<n?'on':'');e.appendChild(d)}}
+
+function randomBytes(n){
+  const a=new Uint8Array(n);
+  if(window.crypto?.getRandomValues)crypto.getRandomValues(a);
+  else for(let i=0;i<n;i++)a[i]=Math.floor(Math.random()*256);
+  return a
+}
+function makeSalt(){return btoa(String.fromCharCode(...randomBytes(16)))}
+function saltBytes(s){return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
+
+/* Compact pure-JS SHA-256 fallback for local-file/mobile viewers without SubtleCrypto. */
+function sha256Bytes(input){
+  const bytes=input instanceof Uint8Array?input:enc.encode(String(input));
+  const K=new Uint32Array([
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+  ]);
+  const bitLen=bytes.length*8;
+  const total=((bytes.length+9+63)>>6)<<6;
+  const msg=new Uint8Array(total);msg.set(bytes);msg[bytes.length]=0x80;
+  const dv=new DataView(msg.buffer);
+  const hi=Math.floor(bitLen/0x100000000),lo=bitLen>>>0;
+  dv.setUint32(total-8,hi,false);dv.setUint32(total-4,lo,false);
+  let h0=0x6a09e667,h1=0xbb67ae85,h2=0x3c6ef372,h3=0xa54ff53a,h4=0x510e527f,h5=0x9b05688c,h6=0x1f83d9ab,h7=0x5be0cd19;
+  const w=new Uint32Array(64),rotr=(x,n)=>(x>>>n)|(x<<(32-n));
+  for(let off=0;off<total;off+=64){
+    for(let i=0;i<16;i++)w[i]=dv.getUint32(off+i*4,false);
+    for(let i=16;i<64;i++){const s0=rotr(w[i-15],7)^rotr(w[i-15],18)^(w[i-15]>>>3),s1=rotr(w[i-2],17)^rotr(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0}
+    let a=h0,b=h1,c=h2,d=h3,e=h4,f=h5,g=h6,h=h7;
+    for(let i=0;i<64;i++){
+      const S1=rotr(e,6)^rotr(e,11)^rotr(e,25),ch=(e&f)^((~e)&g),t1=(h+S1+ch+K[i]+w[i])>>>0;
+      const S0=rotr(a,2)^rotr(a,13)^rotr(a,22),maj=(a&b)^(a&c)^(b&c),t2=(S0+maj)>>>0;
+      h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0
+    }
+    h0=(h0+a)>>>0;h1=(h1+b)>>>0;h2=(h2+c)>>>0;h3=(h3+d)>>>0;h4=(h4+e)>>>0;h5=(h5+f)>>>0;h6=(h6+g)>>>0;h7=(h7+h)>>>0
+  }
+  const out=new Uint8Array(32),odv=new DataView(out.buffer);
+  [h0,h1,h2,h3,h4,h5,h6,h7].forEach((v,i)=>odv.setUint32(i*4,v,false));return out
+}
+function bytesToB64(a){return btoa(String.fromCharCode(...a))}
+function concatBytes(...parts){
+  const total=parts.reduce((n,p)=>n+p.length,0),out=new Uint8Array(total);let o=0;
+  parts.forEach(p=>{out.set(p,o);o+=p.length});return out
+}
+async function fallbackKdf(secret,salt){
+  let block=concatBytes(enc.encode(secret),saltBytes(salt));
+  block=sha256Bytes(block);
+  const sec=enc.encode(secret),saltArr=saltBytes(salt);
+  for(let i=0;i<12000;i++){
+    block=sha256Bytes(concatBytes(block,sec,saltArr));
+    if(i&&i%1500===0)await new Promise(r=>setTimeout(r,0))
+  }
+  return bytesToB64(block)
+}
+async function hashSecret(secret,salt,kdf='pbkdf2'){
+  if(kdf==='fallback-sha256-v1'||!window.crypto?.subtle)return fallbackKdf(secret,salt);
+  try{
+    const base=await crypto.subtle.importKey('raw',enc.encode(secret),'PBKDF2',false,['deriveBits']);
+    const bits=await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:saltBytes(salt),iterations:120000},base,256);
+    return bytesToB64(new Uint8Array(bits))
+  }catch{
+    return fallbackKdf(secret,salt)
+  }
+}
+function currentKdf(){return window.crypto?.subtle?'pbkdf2':'fallback-sha256-v1'}
+
+const LOGIN_OOPS=["Oops, that wasn't quite right 🍓","Oh no, the Berry Lock stayed shut. Try again ♡","Whoops, those weren't the magic berries ✦","Nearly! Let's try that again 🌸","Berry says nope to that one. One more try 🍓","Oh dear, let's give that another go ♡"];
+function friendlyOops(target){const msg=LOGIN_OOPS[Math.floor(Math.random()*LOGIN_OOPS.length)];const e=$(target);if(e)e.textContent=msg;toast(msg)}
+function refreshAccountsFromStorage(){accounts=loadJSON(ACCOUNTS_KEY,[]);return accounts}
+function renderAccounts(){
+  refreshAccountsFromStorage();
+  const e=$('#accountListV3');e.innerHTML='';
+  if(!accounts.length){e.innerHTML='<div class="pair-status-v3">No local accounts yet. Tap Create account.</div>';return}
+  accounts.forEach(a=>{
+    const b=document.createElement('button');b.className='account-choice';
+    b.innerHTML=`<span class="avatar">${a.role==='little'?'🍓':'♡'}</span><span><strong>${esc(a.name)}</strong><small>${a.role==='little'?'Little':'Caregiver'} account</small></span>`;
+    b.onclick=()=>{selectedLogin=a.id;$('#accountListV3').hidden=true;$('#loginFormV3').hidden=false;$('#loginNameV3').textContent=a.name;$('#loginPasswordV3').value='';$('#loginOops').textContent=''};
+    e.appendChild(b)
+  })
+}
+function authTab(which){
+  $('#loginPaneV3').hidden=which!=='login';$('#createPaneV3').hidden=which!=='create';
+  $('#loginTabV3').classList.toggle('active',which==='login');$('#createTabV3').classList.toggle('active',which==='create');
+  if(which==='login'){
+    selectedLogin=null;
+    $('#accountListV3').hidden=false;
+    $('#loginFormV3').hidden=true;
+    $('#loginPasswordV3').value='';
+    $('#loginOops').textContent='';
+    renderAccounts()
+  }
+  const note=$('#createCompatNote');if(note)note.hidden=!!window.crypto?.subtle;
+}
+async function createAccount(){
+  refreshAccountsFromStorage();
+  const feedback=$('#createFeedback');feedback.classList.remove('good');feedback.textContent='';
+  const name=$('#newNameV3').value.trim(),role=$('#newRoleV3').value,pass=$('#newPasswordV3').value;
+  if(!name){feedback.textContent='Give this account a little name first 🍓';return}
+  if(accounts.some(a=>a.name.toLowerCase()===name.toLowerCase())){feedback.textContent='That name already lives on this device. Try another ♡';return}
+  if(pass.length<6){feedback.textContent='A few more characters please. Six or more keeps the Berry Lock happier ♡';return}
+  if(createCombo.length!==4){feedback.textContent='Pick exactly four coloured berries for quick unlock ✦';return}
+  try{
+    const salt=makeSalt(),kdf=currentKdf();
+    $('#createAccountV3').disabled=true;$('#createAccountV3').textContent='Growing your account… 🍓';
+    const a={id:rid(),name,role,salt,kdf,passHash:await hashSecret('pw:'+pass,salt,kdf),comboHash:await hashSecret('combo:'+createCombo.join(''),salt,kdf)};
+    accounts.push(a);
+    try{saveAccounts()}catch(e){throw new Error('storage:'+e.message)}
+    currentAccount=a;state=defaults();save();currentAccount=null;state=null;
+    createCombo=[];dots('#createDotsV3',0);$('#newNameV3').value='';$('#newPasswordV3').value='';
+    feedback.classList.add('good');feedback.textContent='Account created! Welcome to Berry Haven 🍓';
+    authTab('login');toast('Account created 🍓')
+  }catch(e){
+    console.error(e);
+    feedback.textContent='Oops, this viewer would not let Berry Haven save the account. Try opening the file in Chrome or Safari ♡'
+  }finally{
+    $('#createAccountV3').disabled=false;$('#createAccountV3').textContent='Create account'
+  }
+}
+async function login(){refreshAccountsFromStorage();const a=accounts.find(x=>x.id===selectedLogin);if(!a){authTab('login');return toast('That account moved. Pick it again 🍓')};const h=await hashSecret('pw:'+$('#loginPasswordV3').value,a.salt,a.kdf||'pbkdf2');if(h!==a.passHash)return friendlyOops('#loginOops');$('#loginOops').textContent='';currentAccount=a;state=loadState();save();$('#authV3').hidden=true;$('#quickLockV3').hidden=true;render();show(state.safe?'littleHome':'adultHome')}
+function logout(){disconnectPeer();currentAccount=null;state=null;selectedLogin=null;$('#authV3').hidden=false;$('#accountListV3').hidden=false;$('#loginFormV3').hidden=true;authTab('login');renderAccounts()}
+
+function clearCurrentAccountData(){
+  if(!currentAccount)return;
+  const name=currentAccount.name;
+  const first=confirm(`Clear all Berry Haven app data for "${name}" on this device?\n\nYour account and password will stay, but messages, attachments, boundaries, plans, tasks, Berry Wallet, game stats and unlocks will be reset.`);
+  if(!first)return;
+  const second=confirm(`Last check ♡\n\nKeep the "${name}" account but erase its saved app data? This cannot be undone.`);
+  if(!second)return;
+  disconnectPeer();stopV3Sound();stopBreathing?.();
+  localStorage.removeItem(stateKey());
+  state=defaults();
+  state=migrateV5(state);
+  save();
+  render();
+  show(state.safe?'littleHome':'adultHome');
+  toast('Local account data cleared. Fresh start 🍓')
+}
+
+function deleteCurrentAccount(){
+  if(!currentAccount)return;
+  const doomedId=currentAccount.id,doomedName=currentAccount.name;
+  const first=confirm(`Delete the local account "${doomedName}"?\n\nThis removes its login and all Berry Haven data saved for it on this device.`);
+  if(!first)return;
+  const second=confirm(`Are you completely sure?\n\n"${doomedName}" will disappear from the login screen and this cannot be undone.`);
+  if(!second)return;
+  disconnectPeer();stopV3Sound();stopBreathing?.();
+  localStorage.removeItem('berryHavenStateV3:'+doomedId);
+  accounts=loadJSON(ACCOUNTS_KEY,[]).filter(a=>a.id!==doomedId);
+  saveAccounts();
+  currentAccount=null;state=null;selectedLogin=null;unlockCombo=[];createCombo=[];
+  $('#quickLockV3').hidden=true;$('#authV3').hidden=false;
+  authTab('login');
+  toast('Account deleted from this device')
+}
+
+function lockNow(){if(!currentAccount)return;disconnectPeer();unlockCombo=[];dots('#unlockDotsV3',0);$('#quickPasswordV3').value='';$('#quickTitleV3').textContent='Welcome back, '+currentAccount.name;$('#quickLockV3').hidden=false}
+async function quickUnlock(type,secret){const h=await hashSecret((type==='combo'?'combo:':'pw:')+secret,currentAccount.salt,currentAccount.kdf||'pbkdf2'),good=type==='combo'?currentAccount.comboHash:currentAccount.passHash;if(h===good){$('#quickLockV3').hidden=true;$('#quickOops').textContent='';unlockCombo=[];dots('#unlockDotsV3',0);toast('Unlocked 🍓')}else{unlockCombo=[];dots('#unlockDotsV3',0);friendlyOops('#quickOops')}}
+
+function show(id){if(!state)return;if(state.safe&&document.getElementById(id)?.classList.contains('adult-page'))id='littleHome';if(state.safe&&state.role==='caregiver'&&document.getElementById(id)?.classList.contains('little-only'))id='littleHome';$$('.page').forEach(p=>p.classList.toggle('active',p.id===id));$('#title').textContent=id==='adultHome'?'Berry Haven':id==='littleHome'?'Berry Safe Space':(document.querySelector('#'+id+' h2')?.textContent||'Berry Haven');renderNav();scrollTo({top:0,behavior:'smooth'})}
+function render(){if(!state)return;$('#app').classList.toggle('safe',state.safe);$('#modeLabel').textContent=state.safe?'BERRY SAFE SPACE · ADULT CONTENT HIDDEN':'PRIVATE CARE · CONSENT · CONNECTION';$('#littleView').hidden=state.role!=='little';$('#caregiverView').hidden=state.role!=='caregiver';$('#berryButton').hidden=state.role!=='little';$('#berryButton').innerHTML='<span class="berry-mark">🍓</span>';$('#caregiverRequest').textContent=state.partnerFeeling?(partner?.name||'Your partner')+' shared: '+state.partnerFeeling:'No feeling has been shared yet.';$('#v3AccountName').textContent=currentAccount.name;$('#v3Role').textContent=(currentAccount.role==='little'?'Little':'Caregiver')+' account';renderToday();renderChats();renderConsent();renderPlan();renderRules();renderAftercare();renderFeelings();renderTasks();renderStats();renderComfort();renderWordTopics();renderColourPages();renderNav();updatePair()}
+function renderNav(){const map=state.safe?(state.role==='little'?{home:'littleHome',talk:'littleTalks',middle:'miniGames',fourth:'softMusic',more:'moreMenu'}:{home:'littleHome',talk:'littleTalks',middle:'comfortCorner',fourth:'settings',more:'moreMenu'}):{home:'adultHome',talk:'adultChat',middle:'consent',fourth:'planner',more:'moreMenu'};const labels=state.safe?(state.role==='little'?{home:'Home',talk:'Talks',middle:'Play',fourth:'Music',more:'More'}:{home:'Home',talk:'Talks',middle:'Comfort',fourth:'Pairing',more:'More'}):{home:'Home',talk:'Talks',middle:'Boundaries',fourth:'Planner',more:'More'};const icons=state.safe?(state.role==='little'?{home:'🍓',talk:'💌',middle:'✦',fourth:'♫',more:'☰'}:{home:'🍓',talk:'💌',middle:'☁',fourth:'⚙',more:'☰'}):{home:'⌂',talk:'💌',middle:'◇',fourth:'✧',more:'☰'};$$('[data-v3nav]').forEach(b=>{const k=b.dataset.v3nav;b.onclick=()=>show(map[k]);b.querySelector('b').textContent=icons[k];b.querySelector('span').textContent=labels[k];b.classList.toggle('active',$('.page.active')?.id===map[k])})}
+function enterSafe(){if(state.role!=='little')return;if(state.safe)return exitSafe();const o=$('#transition');o.classList.add('show');setTimeout(()=>{state.safe=true;save();sendEvent({type:'safe',value:true});render();show('littleHome');setTimeout(()=>o.classList.remove('show'),420)},1600)}
+function exitSafe(){const o=$('#exittrans');o.classList.add('show');setTimeout(()=>{state.safe=false;save();sendEvent({type:'safe',value:false});render();show('adultHome');setTimeout(()=>o.classList.remove('show'),350)},800)}
+function renderToday(){let n=0;$$('[data-today]').forEach(c=>{c.checked=!!state.today[c.dataset.today];if(c.checked)n++});$('#todayCount').textContent=n+' of 3'}
+
+const normalEmoji=['😀','😂','🥹','😊','😍','🥰','😘','😴','😭','😢','😟','😳','🥺','🤭','🤗','❤️','🩷','💜','💙','💚','🫶','✨','⭐','🌙','☁️','🌈','🍓','🧸','🎀','🌸','🍪','☕','📖','🎮','🎧','💤','👍','👀','🙈','💌'];
+const adultEmoji=['🔥','💋','😏','🥵','😈','🖤','⛓️','🔐','🍒'];
+const safeBerry=['🍓♡','🍓☾','🍓✦','🍓☁','🍓☺','🍓⋆','🍓💤','🍓🧸'];
+const adultBerry=['🍓🔥','🍓💋','🍓😈','🍓🖤'];
+const UNLOCKABLE_BERRIES={crown:'🍓👑',rainbow:'🍓🌈',plush:'🍓🐻',sparkle:'🍓💫'};
+function availableBerry(){return [...safeBerry,...Object.entries(UNLOCKABLE_BERRIES).filter(([k])=>state?.unlocks?.berryMojis?.includes(k)).map(([,v])=>v)]}
+function pickerHTML(space,tab='berry'){const adult=space==='adult';return `<div class="picker-tabs"><button data-ptab="berry" data-space="${space}" class="${tab==='berry'?'active':''}">BerryMojis</button><button data-ptab="emoji" data-space="${space}" class="${tab==='emoji'?'active':''}">Emoji</button></div>`+(tab==='berry'?`<div class="berrymoji-grid">${[...availableBerry(),...(adult?adultBerry:[])].map(x=>`<button class="berrymoji-btn" data-sticker="${esc(x)}" data-space="${space}">${x}</button>`).join('')}</div>`:`<div class="emoji-grid">${[...normalEmoji,...(adult?adultEmoji:[])].map(x=>`<button data-emoji="${esc(x)}" data-space="${space}">${x}</button>`).join('')}</div>`)}
+function openPicker(space,tab='berry'){const p=$('#'+space+'Picker');p.innerHTML=pickerHTML(space,tab);p.hidden=!p.hidden;wirePicker()}
+function wirePicker(){$$('[data-ptab]').forEach(b=>b.onclick=()=>{const p=$('#'+b.dataset.space+'Picker');p.innerHTML=pickerHTML(b.dataset.space,b.dataset.ptab);p.hidden=false;wirePicker()});$$('[data-sticker]').forEach(b=>b.onclick=()=>{sendMessage(b.dataset.space,'',{sticker:b.dataset.sticker});$('#'+b.dataset.space+'Picker').hidden=true});$$('[data-emoji]').forEach(b=>b.onclick=()=>{const i=$('#'+b.dataset.space+'ChatInput');i.value+=b.dataset.emoji;i.focus()})}
+function msgs(space){return space==='adult'?state.adultChat:state.littleChat}
+function own(m){return m.senderId===currentAccount.id}
+function renderChats(){renderChat('adult');renderChat('little')}
+function renderChat(space){const e=$('#'+space+'ChatThread');e.innerHTML='';msgs(space).slice(-120).forEach(m=>{const w=document.createElement('div');w.className='msgwrap '+(own(m)?'mine':'theirs');const b=document.createElement('div');b.className='msgbody';if(m.sticker)b.innerHTML=`<span class="sticker-large">${esc(m.sticker)}</span><small>${esc(m.name)} · ${fmt(m.ts)}</small>`;else b.innerHTML=`${esc(m.text)}<small>${esc(m.name)} · ${fmt(m.ts)}${m.edited?' · edited':''}</small>`;if(m.attachment){const f=document.createElement('div');f.className='file-chip';f.innerHTML=`<span>▧</span><span class="grow">${esc(m.attachment.name)}</span><button class="soft">Open</button>`;f.querySelector('button').onclick=()=>openAttachment(m);b.appendChild(f);if(m.attachment.type.startsWith('image/')){const img=document.createElement('img');img.className='msg-image';img.src=m.attachment.data;img.alt=m.attachment.name;b.appendChild(img)}}w.appendChild(b);if(own(m)){const t=document.createElement('div');t.className='msgtools';if(!m.attachment&&!m.sticker)t.innerHTML+=`<button data-editmsg="${m.id}" data-space="${space}">Edit</button>`;t.innerHTML+=`<button data-delmsg="${m.id}" data-space="${space}">Delete</button>`;w.appendChild(t)}e.appendChild(w)});e.scrollTop=e.scrollHeight;$$('[data-editmsg]').forEach(b=>b.onclick=()=>editMessage(b.dataset.space,b.dataset.editmsg));$$('[data-delmsg]').forEach(b=>b.onclick=()=>deleteMessage(b.dataset.space,b.dataset.delmsg))}
+function fmt(ts){return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function sendMessage(space,text,extra={}){text=text.trim();if(space==='adult'&&state.safe)return;if(!text&&!extra.sticker&&!extra.attachment)return;const m={id:rid(),senderId:currentAccount.id,senderRole:currentAccount.role,name:currentAccount.name,text,ts:Date.now(),...extra};msgs(space).push(m);save();renderChats();sendEvent({type:'message',space,msg:m})}
+function editMessage(space,id){const m=msgs(space).find(x=>x.id===id);if(!m||!own(m))return;const v=prompt('Edit message',m.text);if(v===null||!v.trim())return;m.text=v.trim();m.edited=true;save();renderChats();sendEvent({type:'edit',space,id,text:m.text})}
+function deleteMessage(space,id){const arr=msgs(space),i=arr.findIndex(x=>x.id===id);if(i<0||!own(arr[i])||!confirm('Delete this message?'))return;arr.splice(i,1);save();renderChats();sendEvent({type:'delete',space,id})}
+function openAttachment(m){if(m.attachment.type.startsWith('image/')){const w=window.open();w.document.write(`<img style="max-width:100%" src="${m.attachment.data}">`)}else{const a=document.createElement('a');a.href=m.attachment.data;a.download=m.attachment.name;a.click()}}
+function attachFile(space,file){if(!file)return;if(file.size>700*1024)return toast('Keep attachments under 700 KB in this single-file build');const r=new FileReader();r.onload=()=>{sendMessage(space,'',{attachment:{name:file.name,type:file.type||'application/octet-stream',size:file.size,data:r.result}});toast(dc&&dc.readyState==='open'?'Attachment shared':'Saved locally')};r.readAsDataURL(file)}
+
+const consentInfo={yes:'Things I actively like, enjoy or want. These are welcome when the rest of the situation is consensual.',maybe:'Things I am curious about or might try, but they need a separate conversation first.',no:'Hard limits. These are non-negotiable and are not permission to persuade, pressure or surprise me.'};
+function renderConsent(){$$('[data-consent-tab]').forEach(b=>b.classList.toggle('active',b.dataset.consentTab===currentConsent));$('#consentExplain').textContent=consentInfo[currentConsent];$('#myConsentText').value=state.consentOwn[currentConsent]||'';const p=state.consentPartner;$('#partnerConsentTitle').textContent=(p.name?p.name+"'s ":'Partner\'s ')+currentConsent.toUpperCase()+' list';$('#partnerConsentText').textContent=p[currentConsent]||'Nothing shared for this category yet.';$('#partnerConsentText').classList.toggle('partner-empty',!p[currentConsent])}
+function saveConsent(){state.consentOwn[currentConsent]=$('#myConsentText').value;save();sendEvent({type:'consent',name:currentAccount.name,consent:state.consentOwn});toast('Saved'+(dc&&dc.readyState==='open'?' and shared':''))}
+function renderPlan(){$('#planTitle').value=state.plan.title||'';$('#planInterval').value=state.plan.interval||15;$('#planBoundaries').value=state.plan.boundaries||'';$('#planAftercare').value=state.plan.aftercare||''}
+
+function ownerLabel(v){return v==='me'?'Me':v==='partner'?'Partner':'Both'}
+function renderRules(){
+  const hub=state.rulesHub||{rules:[],routines:[],partnerRules:[],partnerRoutines:[]};
+  $('#rulesPane').hidden=rulesMode!=='rules';$('#routinesPane').hidden=rulesMode!=='routines';
+  $('#rulesTab').classList.toggle('active',rulesMode==='rules');$('#routinesTab').classList.toggle('active',rulesMode==='routines');
+
+  const mine=$('#myRulesList');mine.innerHTML='';
+  hub.rules.forEach(r=>{
+    const d=document.createElement('div');d.className='rule-card '+(!r.active?'inactive':'');
+    d.innerHTML=`<div class="rule-top"><strong>${esc(r.title)}</strong><span class="rule-chip">${r.active?'Active':'Paused'}</span></div>
+      <div class="rule-meta"><span class="rule-chip">${esc(r.category||'Other')}</span><span class="rule-chip">${ownerLabel(r.owner)}</span></div>
+      ${r.details?`<p>${esc(r.details)}</p>`:''}
+      <div class="rule-actions"><button class="soft" data-rule-toggle="${r.id}">${r.active?'Pause':'Activate'}</button><button class="soft" data-rule-edit="${r.id}">Edit</button><button class="danger" data-rule-delete="${r.id}">Delete</button></div>`;
+    mine.appendChild(d)
+  });
+  if(!hub.rules.length)mine.innerHTML='<div class="partner-empty-card">No rules yet. Add one above.</div>';
+
+  const pr=$('#partnerRulesList');pr.innerHTML='';
+  (hub.partnerRules||[]).forEach(r=>{const d=document.createElement('div');d.className='rule-card partner '+(!r.active?'inactive':'');d.innerHTML=`<div class="rule-top"><strong>${esc(r.title)}</strong><span class="rule-chip">Read only</span></div><div class="rule-meta"><span class="rule-chip">${esc(r.category||'Other')}</span><span class="rule-chip">${ownerLabel(r.owner)}</span></div>${r.details?`<p>${esc(r.details)}</p>`:''}`;pr.appendChild(d)});
+  if(!pr.children.length)pr.innerHTML='<div class="partner-empty-card">No partner rules have been received yet.</div>';
+
+  const routines=$('#myRoutinesList');routines.innerHTML='';
+  hub.routines.forEach(r=>{
+    const d=document.createElement('div');d.className='rule-card '+(!r.active?'inactive':'');
+    const doneToday=r.lastDone&&new Date(r.lastDone).toDateString()===new Date().toDateString();
+    d.innerHTML=`<div class="rule-top"><strong>${esc(r.title)}</strong><span class="rule-chip">${r.active?'Active':'Paused'}</span></div>
+      <div class="rule-meta"><span class="rule-chip">${esc((r.cadence||'as-needed').replace('-',' '))}</span><span class="rule-chip">${ownerLabel(r.owner)}</span></div>
+      ${r.details?`<p>${esc(r.details)}</p>`:''}
+      <label class="routine-check"><input type="checkbox" data-routine-done="${r.id}" ${doneToday?'checked':''}><span>${doneToday?'Completed today':'Mark completed today'}</span></label>
+      <div class="rule-actions"><button class="soft" data-routine-toggle="${r.id}">${r.active?'Pause':'Activate'}</button><button class="soft" data-routine-edit="${r.id}">Edit</button><button class="danger" data-routine-delete="${r.id}">Delete</button></div>`;
+    routines.appendChild(d)
+  });
+  if(!hub.routines.length)routines.innerHTML='<div class="partner-empty-card">No routines yet. Add one above.</div>';
+
+  const rr=$('#partnerRoutinesList');rr.innerHTML='';
+  (hub.partnerRoutines||[]).forEach(r=>{const d=document.createElement('div');d.className='rule-card partner '+(!r.active?'inactive':'');d.innerHTML=`<div class="rule-top"><strong>${esc(r.title)}</strong><span class="rule-chip">Read only</span></div><div class="rule-meta"><span class="rule-chip">${esc((r.cadence||'as-needed').replace('-',' '))}</span><span class="rule-chip">${ownerLabel(r.owner)}</span></div>${r.details?`<p>${esc(r.details)}</p>`:''}`;rr.appendChild(d)});
+  if(!rr.children.length)rr.innerHTML='<div class="partner-empty-card">No partner routines have been received yet.</div>';
+
+  $$('[data-rule-toggle]').forEach(b=>b.onclick=()=>{const r=hub.rules.find(x=>x.id===b.dataset.ruleToggle);if(r){r.active=!r.active;save();shareRules();renderRules()}});
+  $$('[data-rule-delete]').forEach(b=>b.onclick=()=>{if(!confirm('Delete this rule?'))return;hub.rules=hub.rules.filter(x=>x.id!==b.dataset.ruleDelete);state.rulesHub=hub;save();shareRules();renderRules()});
+  $$('[data-rule-edit]').forEach(b=>b.onclick=()=>editRule(b.dataset.ruleEdit));
+  $$('[data-routine-toggle]').forEach(b=>b.onclick=()=>{const r=hub.routines.find(x=>x.id===b.dataset.routineToggle);if(r){r.active=!r.active;save();shareRules();renderRules()}});
+  $$('[data-routine-delete]').forEach(b=>b.onclick=()=>{if(!confirm('Delete this routine?'))return;hub.routines=hub.routines.filter(x=>x.id!==b.dataset.routineDelete);state.rulesHub=hub;save();shareRules();renderRules()});
+  $$('[data-routine-edit]').forEach(b=>b.onclick=()=>editRoutine(b.dataset.routineEdit));
+  $$('[data-routine-done]').forEach(c=>c.onchange=()=>{const r=hub.routines.find(x=>x.id===c.dataset.routineDone);if(r){r.lastDone=c.checked?Date.now():0;save();renderRules()}})
+}
+function shareRules(){sendEvent({type:'rulesSync',name:currentAccount.name,rules:state.rulesHub.rules,routines:state.rulesHub.routines})}
+function clearRuleForm(){ruleEditId='';$('#ruleFormTitle').textContent='Add a Rule';$('#ruleTitle').value='';$('#ruleDetails').value='';$('#ruleCategory').value='Communication';$('#ruleOwner').value='both';$('#cancelRuleEdit').hidden=true}
+function saveRuleV9(){
+  const title=$('#ruleTitle').value.trim();if(!title)return toast('Give the rule a title');
+  const payload={id:ruleEditId||rid(),title,details:$('#ruleDetails').value.trim(),category:$('#ruleCategory').value,owner:$('#ruleOwner').value,active:true};
+  if(ruleEditId){const i=state.rulesHub.rules.findIndex(x=>x.id===ruleEditId);if(i>=0)payload.active=state.rulesHub.rules[i].active,state.rulesHub.rules[i]=payload}else state.rulesHub.rules.push(payload);
+  clearRuleForm();save();shareRules();renderRules();toast(ruleEditId?'Rule updated':'Rule saved')
+}
+function editRule(id){const r=state.rulesHub.rules.find(x=>x.id===id);if(!r)return;ruleEditId=id;$('#ruleFormTitle').textContent='Edit Rule';$('#ruleTitle').value=r.title;$('#ruleDetails').value=r.details||'';$('#ruleCategory').value=r.category||'Other';$('#ruleOwner').value=r.owner||'both';$('#cancelRuleEdit').hidden=false;window.scrollTo({top:$('#rulesPane').offsetTop-90,behavior:'smooth'})}
+function clearRoutineForm(){routineEditId='';$('#routineFormTitle').textContent='Add a Routine';$('#routineTitle').value='';$('#routineDetails').value='';$('#routineCadence').value='daily';$('#routineOwner').value='both';$('#cancelRoutineEdit').hidden=true}
+function saveRoutineV9(){
+  const title=$('#routineTitle').value.trim();if(!title)return toast('Give the routine a name');
+  const payload={id:routineEditId||rid(),title,details:$('#routineDetails').value.trim(),cadence:$('#routineCadence').value,owner:$('#routineOwner').value,active:true,lastDone:0};
+  if(routineEditId){const i=state.rulesHub.routines.findIndex(x=>x.id===routineEditId);if(i>=0){payload.active=state.rulesHub.routines[i].active;payload.lastDone=state.rulesHub.routines[i].lastDone||0;state.rulesHub.routines[i]=payload}}else state.rulesHub.routines.push(payload);
+  clearRoutineForm();save();shareRules();renderRules();toast('Routine saved')
+}
+function editRoutine(id){const r=state.rulesHub.routines.find(x=>x.id===id);if(!r)return;routineEditId=id;$('#routineFormTitle').textContent='Edit Routine';$('#routineTitle').value=r.title;$('#routineDetails').value=r.details||'';$('#routineCadence').value=r.cadence||'daily';$('#routineOwner').value=r.owner||'both';$('#cancelRoutineEdit').hidden=false;window.scrollTo({top:$('#routinesPane').offsetTop-90,behavior:'smooth'})}
+
+function renderAftercare(){
+  const p=state.aftercarePrefs||{choices:[],helpNotes:'',avoidNotes:''};
+  $$('[data-pref]').forEach(b=>b.classList.toggle('on',p.choices.includes(b.dataset.pref)));
+  $('#afterPrefNotes').value=p.helpNotes||'';$('#afterAvoidNotes').value=p.avoidNotes||'';
+  $$('[data-after]').forEach(b=>b.classList.toggle('on',afterSelected.has(b.dataset.after)));
+  $$('[data-aftermood]').forEach(b=>b.classList.toggle('on',afterMood===b.dataset.aftermood));
+  $('#settledValue').textContent=$('#settledRange').value+'/5';
+
+  const partnerBox=$('#partnerAftercare');
+  if(state.partnerAftercare){
+    const h=state.partnerAftercare;
+    partnerBox.innerHTML=`<strong>${esc(h.name||'Partner')}</strong> · ${new Date(h.ts).toLocaleString()}<br><small>Mood: ${esc(h.mood||'Not selected')} · Settled ${h.settled}/5</small>${h.options?.length?`<p>Needs: ${esc(h.options.join(', '))}</p>`:''}${h.helped?`<p><strong>What helped:</strong> ${esc(h.helped)}</p>`:''}${h.change?`<p><strong>Next time:</strong> ${esc(h.change)}</p>`:''}${h.note?`<p><strong>Note:</strong> ${esc(h.note)}</p>`:''}`
+  }else partnerBox.textContent='Nothing has been shared yet.';
+
+  const e=$('#afterHistory');e.innerHTML='';
+  state.afterHistory.slice(-12).reverse().forEach((h,revIndex)=>{
+    const actual=state.afterHistory.length-1-revIndex,d=document.createElement('div');d.className='after-history-card';
+    d.innerHTML=`<div class="top"><strong>${esc(h.mood||'Check-in')}</strong><small>${new Date(h.ts).toLocaleString()}</small></div>
+      <div class="chips"><span>Settled ${h.settled}/5</span>${(h.options||[]).map(x=>`<span>${esc(x)}</span>`).join('')}</div>
+      ${h.helped?`<p><strong>Helped:</strong> ${esc(h.helped)}</p>`:''}${h.change?`<p><strong>Next time:</strong> ${esc(h.change)}</p>`:''}${h.note?`<p>${esc(h.note)}</p>`:''}
+      <div class="rule-actions"><button class="danger" data-after-delete="${actual}">Delete</button></div>`;
+    e.appendChild(d)
+  });
+  if(!e.children.length)e.innerHTML='<div class="partner-empty-card">No saved check-ins yet.</div>';
+  $$('[data-after-delete]').forEach(b=>b.onclick=()=>{if(!confirm('Delete this aftercare check-in?'))return;state.afterHistory.splice(+b.dataset.afterDelete,1);save();renderAftercare()})
+}
+function saveAfterPrefs(){
+  state.aftercarePrefs={choices:$$('[data-pref].on').map(b=>b.dataset.pref),helpNotes:$('#afterPrefNotes').value.trim(),avoidNotes:$('#afterAvoidNotes').value.trim()};
+  save();toast('Aftercare preferences saved ♡')
+}
+function saveAftercare(){
+  const item={ts:Date.now(),name:currentAccount.name,mood:afterMood,settled:+$('#settledRange').value,options:[...afterSelected],helped:$('#afterWhatHelped').value.trim(),change:$('#afterChangeNext').value.trim(),note:$('#aftercareNotes').value.trim()};
+  state.afterHistory.push(item);state.afterHistory=state.afterHistory.slice(-40);
+  const shared=$('#shareAftercare').checked;if(shared)sendEvent({type:'aftercareShare',item});
+  $('#afterWhatHelped').value='';$('#afterChangeNext').value='';$('#aftercareNotes').value='';$('#shareAftercare').checked=false;afterSelected.clear();afterMood='';$('#settledRange').value=3;
+  save();renderAftercare();toast(shared?'Saved and shared ♡':'Aftercare check-in saved')
+}
+
+const feelings=['Happy','Sleepy','Sad','Scared','Overwhelmed','Lonely','Shy','Grumpy','Excited','Teary','Unsure','Need closeness'];const feelingFaces={'Happy':'🍓☺','Sleepy':'🍓☾','Sad':'🍓☁','Scared':'🍓…','Overwhelmed':'🍓✦','Lonely':'🍓♡','Shy':'🍓⁝','Grumpy':'🍓◇','Excited':'🍓★','Teary':'🍓💧','Unsure':'🍓?','Need closeness':'🍓🧸'};
+function renderFeelings(){const e=$('#feelingsGrid');e.innerHTML='';feelings.forEach(f=>{const b=document.createElement('button');b.className='feeling-v3 '+(state.feeling===f?'selected':'');b.innerHTML=`<span class="face">${feelingFaces[f]}</span><span>${esc(f)}</span>`;b.onclick=()=>{state.feeling=f;save();sendEvent({type:'feeling',feeling:f,name:currentAccount.name});renderFeelings()};e.appendChild(b)});$('#feelingText').textContent=state.feeling?'You chose '+state.feeling+'.':"Choose whatever feels closest. There isn't a wrong answer.";$('#caregiverRequest').textContent=state.partnerFeeling?(partner?.name||'Your partner')+' shared: '+state.partnerFeeling:'No feeling has been shared yet.'}
+function taskEmoji(t){t=t.toLowerCase();if(t.includes('water')||t.includes('drink'))return'💧';if(t.includes('blanket')||t.includes('cosy'))return'🧸';if(t.includes('story'))return'📖';if(t.includes('music'))return'♫';if(t.includes('game'))return'☆';return'✦'}
+function celebrateTask(el){const r=el.getBoundingClientRect();['♡','★','✦','☆','♡'].forEach((x,i)=>{const p=document.createElement('i');p.className='celebrate-v3';p.textContent=x;p.style.left=(r.left+r.width*.72+Math.random()*40)+'px';p.style.top=(r.top+r.height*.45)+'px';p.style.color=['#e96e96','#a57ae1','#edaa4b','#73b98a'][i%4];p.style.setProperty('--dx',((Math.random()-.5)*90)+'px');p.style.setProperty('--rot',((Math.random()-.5)*80)+'deg');document.body.appendChild(p);setTimeout(()=>p.remove(),1200)})}
+function renderTasks(){const e=$('#littleTasksList');e.innerHTML='';$('#berryCount').textContent=state.berries;state.littleTasks.forEach((t,i)=>{const b=document.createElement('button');b.className='task-card-v3 '+(t.done?'done':'');b.dataset.task=i;b.innerHTML=`<span class="task-icon-v3">${taskEmoji(t.text)}</span><span class="task-copy-v3"><strong>${esc(t.text)}</strong><small>${t.done?'Tiny win complete ♡':'Tap when you are done'}</small></span><span class="task-tick-v3">${t.done?'✓':'♡'}</span><button class="task-delete-v3" data-task-del="${i}">×</button>`;e.appendChild(b)});$$('[data-task]').forEach(b=>b.onclick=e=>{if(e.target.closest('[data-task-del]'))return;const t=state.littleTasks[+b.dataset.task],was=t.done;t.done=!t.done;if(t.done&&!was){state.berries+=3;state.lifetimeBerries+=3;celebrateTask(b);toast('Tiny win! +3 Berries 🍓')}else if(was)state.berries=Math.max(0,state.berries-3);save();renderTasks()});$$('[data-task-del]').forEach(b=>b.onclick=e=>{e.stopPropagation();state.littleTasks.splice(+b.dataset.taskDel,1);save();renderTasks()})}
+
+
+const WORD_TOPICS={
+ cosy:['BERRY','COSY','CUDDLE','BLANKET','STORY','STAR','SOFT','DREAM','PLUSH','KIND','WARM','SAFE','SMILE','NAP','HUG','CLOUD','QUIET','COMFY','HEART','GENTLE'],
+ animals:['BUNNY','PANDA','KITTEN','PUPPY','FOX','OTTER','DUCK','BEAR','MOUSE','LAMB','PONY','OWL','FROG','KOALA','DEER','BEE'],
+ toys:['TEDDY','BLOCKS','DOLLY','PUZZLE','CRAYON','BALL','TRAIN','KITE','ROBOT','YOYO','STICKER','BUBBLES','MARBLES','PLUSH'],
+ cartoons:['TOON','HERO','MAGIC','FRIEND','SILLY','ADVENTURE','CASTLE','DRAGON','PRINCESS','ROCKET','MONSTER','RAINBOW','STORY','CLOUD']
+};
+let currentWordTopic='cosy',wordTimerHandle=null,fourTimerHandle=null,colourTimerHandle=null,currentColourPage='cottage',selectedColour=1;
+
+const COLOUR_PAGES={
+ cottage:{name:'Strawberry Cottage',palette:['#f7c7d6','#e76b8f','#7dbb84','#f3d58a','#8fc4e7'],grid:[
+1,1,1,0,0,1,1,1,
+1,2,1,0,0,1,2,1,
+0,0,0,3,3,0,0,0,
+0,0,3,3,3,3,0,0,
+4,4,4,4,4,4,4,4,
+4,2,2,4,4,2,2,4,
+4,2,5,4,4,5,2,4,
+4,4,4,4,4,4,4,4]},
+ moon:{name:'Sleepy Moon',palette:['#6fa7db','#f6d678','#d7c5f2','#f3a7bd','#ffffff'],grid:[
+1,1,1,1,0,0,0,0,
+1,2,2,1,0,3,0,0,
+1,2,5,1,3,3,3,0,
+1,2,2,1,0,3,0,0,
+1,1,1,1,0,0,0,0,
+0,0,4,0,0,4,0,0,
+0,4,4,4,4,4,4,0,
+0,0,4,4,4,4,0,0]},
+ bear:{name:'Cuddle Bear',palette:['#bd875d','#f0c6a0','#6b4a3a','#ef92ab','#d7c5f2'],grid:[
+0,1,1,0,0,1,1,0,
+1,2,2,1,1,2,2,1,
+1,2,3,2,2,3,2,1,
+0,1,2,2,2,2,1,0,
+0,0,2,3,3,2,0,0,
+0,4,2,2,2,2,4,0,
+0,4,4,2,2,4,4,0,
+0,0,5,5,5,5,0,0]},
+ rainbow:{name:'Rainbow Cloud',palette:['#ed728f','#efa957','#f0d65e','#77bd89','#7faadd','#b28ad8'],grid:[
+1,1,2,2,3,3,0,0,
+1,2,2,3,3,4,4,0,
+2,2,3,3,4,4,5,5,
+0,3,3,4,4,5,5,6,
+0,0,5,5,5,5,0,0,
+0,5,5,5,5,5,5,0,
+5,5,5,5,5,5,5,5,
+0,0,5,5,5,5,0,0]}
+};
+
+const SHOP={
+ emoji:[
+  {id:'crown',name:'Crown Berry',icon:'🍓👑',cost:30,desc:'A tiny royal BerryMoji.'},
+  {id:'rainbow',name:'Rainbow Berry',icon:'🍓🌈',cost:35,desc:'A bright happy BerryMoji.'},
+  {id:'plush',name:'Plush Bear Berry',icon:'🍓🐻',cost:40,desc:'Extra-cuddly chat sticker.'},
+  {id:'sparkle',name:'Sparkle Berry',icon:'🍓💫',cost:45,desc:'For tiny magical moments.'}
+ ],
+ topics:[
+  {id:'animals',name:'Animal Garden',icon:'🐰',cost:40,desc:'Bunnies, pandas, foxes and more.'},
+  {id:'toys',name:'Toy Box',icon:'🧸',cost:50,desc:'Teddies, blocks, kites and puzzles.'},
+  {id:'cartoons',name:'Cartoon World',icon:'📺',cost:60,desc:'Generic cartoon adventure words.'}
+ ],
+ colour:[
+  {id:'moon',name:'Sleepy Moon',icon:'🌙',cost:60,desc:'A sleepy moon and cloud picture.'},
+  {id:'bear',name:'Cuddle Bear',icon:'🧸',cost:80,desc:'A warm teddy-style picture.'},
+  {id:'rainbow',name:'Rainbow Cloud',icon:'🌈',cost:100,desc:'A soft colourful rainbow picture.'}
+ ]
+};
+
+function msText(ms){return ms?`${(ms/1000).toFixed(1)}s`:'—'}
+function renderStats(){
+  const s=state.stats;
+  $('#walletBerries').textContent=state.berries;$('#shopWallet')&&($('#shopWallet').textContent=state.berries);$('#lifetimeBerries').textContent=state.lifetimeBerries||0;
+  $('#pairsBerries').textContent=(s.pairsBerries||0)+' 🍓';$('#pairsWins').textContent=s.pairsWins||0;$('#pairBest').textContent=msText(s.pairsBest);
+  $('#wordBerries').textContent=(s.wordBerries||0)+' 🍓';$('#wordWins').textContent=s.wordWins||0;$('#wordBest').textContent=msText(s.wordBest);
+  $('#fourBerries').textContent=(s.fourBerries||0)+' 🍓';$('#fourWins').textContent=s.fourWins||0;$('#fourBest').textContent=msText(s.fourBest);
+  $('#colourBerries').textContent=(s.colourBerries||0)+' 🍓';$('#colourWins').textContent=s.colourWins||0;$('#colourBest').textContent=msText(s.colourBest);
+  renderShop()
+}
+function earnBerries(amount,winField,berryField){
+  state.berries+=amount;state.lifetimeBerries+=amount;state.stats[winField]=(state.stats[winField]||0)+1;state.stats[berryField]=(state.stats[berryField]||0)+amount;save();renderStats()
+}
+function spendBerries(cost){if(state.berries<cost){toast(`You need ${cost-state.berries} more Berries 🍓`);return false}state.berries-=cost;save();return true}
+
+const pairSymbols=['🍓','🌙','🧸','⭐','🌈','🍪','☁️','🎀','📖','💗'];
+function newGame(){clearInterval(pairTimerHandle);const deck=[...pairSymbols,...pairSymbols].sort(()=>Math.random()-.5).map((s,i)=>({id:i,s,flip:false,match:false}));game={deck,first:null,lock:false,matched:0,start:0};$('#pairTimer').textContent='0.0s';renderGame()}
+function renderGame(){const e=$('#memoryGame');e.innerHTML='';game.deck.forEach((c,i)=>{const b=document.createElement('button');b.className='mcard-v3 '+(c.flip?'flipped ':'')+(c.match?'matched':'');b.textContent=(c.flip||c.match)?c.s:'?';b.onclick=()=>flip(i);e.appendChild(b)})}
+function flip(i){
+  if(game.lock||game.deck[i].flip||game.deck[i].match)return;
+  if(!game.start){game.start=performance.now();pairTimerHandle=setInterval(()=>$('#pairTimer').textContent=((performance.now()-game.start)/1000).toFixed(1)+'s',100)}
+  game.deck[i].flip=true;renderGame();if(game.first===null){game.first=i;return}const a=game.first,b=i;game.lock=true;
+  if(game.deck[a].s===game.deck[b].s){game.deck[a].match=game.deck[b].match=true;game.first=null;game.lock=false;game.matched+=2;renderGame();if(game.matched===game.deck.length){clearInterval(pairTimerHandle);const ms=performance.now()-game.start;if(!state.stats.pairsBest||ms<state.stats.pairsBest)state.stats.pairsBest=ms;earnBerries(20,'pairsWins','pairsBerries');toast('Berry Pairs complete! +20 Berries 🍓')}}
+  else setTimeout(()=>{game.deck[a].flip=game.deck[b].flip=false;game.first=null;game.lock=false;renderGame()},600)
+}
+
+function renderWordTopics(){
+  const e=$('#wordTopics');if(!e)return;e.innerHTML='';
+  Object.keys(WORD_TOPICS).forEach(id=>{const locked=!state.unlocks.wordTopics.includes(id);const b=document.createElement('button');b.className='topic-pill '+(id===currentWordTopic?'active ':'')+(locked?'locked':'');b.textContent=(locked?'🔒 ':'')+id[0].toUpperCase()+id.slice(1);b.onclick=()=>{if(locked)return toast('Unlock this topic in the Prize Garden 🍓');currentWordTopic=id;newWords();renderWordTopics()};e.appendChild(b)})
+}
+function newWords(){
+  clearInterval(wordTimerHandle);if(!state.unlocks.wordTopics.includes(currentWordTopic))currentWordTopic='cosy';
+  const words=[...WORD_TOPICS[currentWordTopic]].sort(()=>Math.random()-.5).slice(0,6),N=10,grid=Array(N*N).fill(''),dirs=[[1,0],[0,1],[1,1],[-1,1],[1,-1],[-1,-1],[0,-1],[-1,0]];
+  for(const w of words){let placed=false;for(let tries=0;tries<350&&!placed;tries++){const [dx,dy]=dirs[Math.floor(Math.random()*dirs.length)],x=Math.floor(Math.random()*N),y=Math.floor(Math.random()*N),ex=x+dx*(w.length-1),ey=y+dy*(w.length-1);if(ex<0||ex>=N||ey<0||ey>=N)continue;let ok=true;for(let k=0;k<w.length;k++){const p=(y+dy*k)*N+x+dx*k;if(grid[p]&&grid[p]!==w[k])ok=false}if(!ok)continue;for(let k=0;k<w.length;k++)grid[(y+dy*k)*N+x+dx*k]=w[k];placed=true}}
+  const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';for(let i=0;i<grid.length;i++)if(!grid[i])grid[i]=letters[Math.floor(Math.random()*letters.length)];
+  wordGame={N,words,found:[],grid,start:null,end:null,drag:false};$('#wordTimer').textContent='0.0s';renderWords();renderWordTopics()
+}
+function renderWords(){$('#wordList').innerHTML=wordGame.words.map(w=>`<span class="word-pill ${wordGame.found.includes(w)?'found':''}">${w}</span>`).join('');const e=$('#wordGrid');e.innerHTML='';wordGame.grid.forEach((ch,i)=>{const b=document.createElement('button');b.className='word-cell';b.textContent=ch;b.dataset.wc=i;e.appendChild(b)});wireWord()}
+function lineIndices(a,b){const N=wordGame.N,ax=a%N,ay=Math.floor(a/N),bx=b%N,by=Math.floor(b/N),dx=Math.sign(bx-ax),dy=Math.sign(by-ay),lx=Math.abs(bx-ax),ly=Math.abs(by-ay);if(!(ax===bx||ay===by||lx===ly))return[];const len=Math.max(lx,ly)+1,out=[];for(let k=0;k<len;k++)out.push((ay+dy*k)*N+(ax+dx*k));return out}
+function previewWord(a,b){$$('.word-cell').forEach(x=>x.classList.remove('preview'));lineIndices(a,b).forEach(i=>$(`[data-wc="${i}"]`)?.classList.add('preview'))}
+function finishWord(a,b){
+  const inds=lineIndices(a,b);if(!inds.length)return;const s=inds.map(i=>wordGame.grid[i]).join(''),rev=[...s].reverse().join(''),word=wordGame.words.find(w=>w===s||w===rev);$$('.word-cell').forEach(x=>x.classList.remove('preview'));if(!word||wordGame.found.includes(word))return;
+  wordGame.found.push(word);renderWords();
+  if(wordGame.found.length===wordGame.words.length){clearInterval(wordTimerHandle);const ms=performance.now()-wordGame.started;if(!state.stats.wordBest||ms<state.stats.wordBest)state.stats.wordBest=ms;earnBerries(25,'wordWins','wordBerries');toast('Word Garden complete! +25 Berries 🍓')}
+}
+function wireWord(){
+  const g=$('#wordGrid');g.onpointerdown=e=>{const c=e.target.closest('.word-cell');if(!c)return;if(!wordGame.started){wordGame.started=performance.now();wordTimerHandle=setInterval(()=>$('#wordTimer').textContent=((performance.now()-wordGame.started)/1000).toFixed(1)+'s',100)}wordGame.drag=true;wordGame.start=+c.dataset.wc;wordGame.end=wordGame.start;previewWord(wordGame.start,wordGame.end)};
+  g.onpointermove=e=>{if(!wordGame.drag)return;const c=document.elementFromPoint(e.clientX,e.clientY)?.closest('.word-cell');if(c){wordGame.end=+c.dataset.wc;previewWord(wordGame.start,wordGame.end)}};
+  g.onpointerup=()=>{if(!wordGame.drag)return;wordGame.drag=false;finishWord(wordGame.start,wordGame.end)}
+}
+
+function newFour(){clearInterval(fourTimerHandle);fourGame={board:Array(42).fill(0),over:false,start:0};$('#fourStatus').textContent='Your turn 🍓';$('#fourTimer').textContent='0.0s';renderFour()}
+function renderFour(){const e=$('#connectBoard');e.innerHTML='';fourGame.board.forEach((v,i)=>{const b=document.createElement('button');b.className='connect-cell';b.textContent=v===1?'🍓':v===2?'⭐':'';b.onclick=()=>fourMove(i%7);e.appendChild(b)})}
+function drop(board,col,p){for(let r=5;r>=0;r--){const i=r*7+col;if(!board[i]){board[i]=p;return i}}return-1}
+function win(b,p){for(let r=0;r<6;r++)for(let c=0;c<7;c++)for(const[d1,d2]of[[1,0],[0,1],[1,1],[1,-1]]){let ok=true;for(let k=0;k<4;k++){const x=c+d1*k,y=r+d2*k;if(x<0||x>=7||y<0||y>=6||b[y*7+x]!==p)ok=false}if(ok)return true}return false}
+function validCols(b){return[0,1,2,3,4,5,6].filter(c=>!b[c])}
+function botChoice(){const v=validCols(fourGame.board);for(const c of v){const b=[...fourGame.board];drop(b,c,2);if(win(b,2))return c}for(const c of v){const b=[...fourGame.board];drop(b,c,1);if(win(b,1))return c}return[3,2,4,1,5,0,6].filter(c=>v.includes(c))[Math.floor(Math.random()*Math.min(3,v.length))]??v[0]}
+function fourMove(col){
+  if(fourGame.over)return;if(!fourGame.start){fourGame.start=performance.now();fourTimerHandle=setInterval(()=>$('#fourTimer').textContent=((performance.now()-fourGame.start)/1000).toFixed(1)+'s',100)}
+  if(drop(fourGame.board,col,1)<0)return;renderFour();
+  if(win(fourGame.board,1)){clearInterval(fourTimerHandle);fourGame.over=true;const ms=performance.now()-fourGame.start;if(!state.stats.fourBest||ms<state.stats.fourBest)state.stats.fourBest=ms;$('#fourStatus').textContent='Berry wins! ♡';earnBerries(30,'fourWins','fourBerries');toast('Berry wins! +30 Berries 🍓');return}
+  if(!validCols(fourGame.board).length){clearInterval(fourTimerHandle);fourGame.over=true;state.stats.fourDraws++;state.berries+=8;state.lifetimeBerries+=8;state.stats.fourBerries+=8;save();renderStats();$('#fourStatus').textContent='A cosy draw ✦ +8 🍓';return}
+  $('#fourStatus').textContent='Star is thinking…';setTimeout(()=>{drop(fourGame.board,botChoice(),2);renderFour();if(win(fourGame.board,2)){clearInterval(fourTimerHandle);fourGame.over=true;state.stats.fourLosses++;save();$('#fourStatus').textContent='Star got this one. Again?'}else if(!validCols(fourGame.board).length){clearInterval(fourTimerHandle);fourGame.over=true;state.stats.fourDraws++;state.berries+=8;state.lifetimeBerries+=8;state.stats.fourBerries+=8;save();renderStats();$('#fourStatus').textContent='A cosy draw ✦ +8 🍓'}else $('#fourStatus').textContent='Your turn 🍓'},350)
+}
+
+function renderColourPages(){
+  const e=$('#colourPages');if(!e)return;e.innerHTML='';
+  Object.entries(COLOUR_PAGES).forEach(([id,p])=>{const locked=!state.unlocks.colourPages.includes(id);const b=document.createElement('button');b.className='colour-page-btn '+(id===currentColourPage?'active ':'')+(locked?'locked':'');b.textContent=(locked?'🔒 ':'')+p.name;b.onclick=()=>{if(locked)return toast('Unlock this picture in the Prize Garden 🍓');currentColourPage=id;newColour();renderColourPages()};e.appendChild(b)})
+}
+function newColour(){
+  clearInterval(colourTimerHandle);if(!state.unlocks.colourPages.includes(currentColourPage))currentColourPage='cottage';const p=COLOUR_PAGES[currentColourPage];
+  colourGame={painted:Array(64).fill(false),start:0};selectedColour=1;$('#colourTimer').textContent='0.0s';$('#colourTitle').textContent=p.name;renderColour();renderColourPages()
+}
+function renderColour(){
+  const p=COLOUR_PAGES[currentColourPage],pal=$('#colourPalette'),grid=$('#colourGrid');pal.innerHTML='';grid.innerHTML='';
+  p.palette.forEach((c,i)=>{const b=document.createElement('button');b.className='colour-swatch '+(selectedColour===i+1?'active':'');b.style.background=c;b.textContent=i+1;b.onclick=()=>{selectedColour=i+1;renderColour()};pal.appendChild(b)});
+  p.grid.forEach((n,i)=>{const b=document.createElement('button');b.className='colour-cell '+(colourGame.painted[i]?'done':'');b.textContent=n||'';if(colourGame.painted[i]&&n)b.style.background=p.palette[n-1];if(!n){b.classList.add('done');b.style.background='transparent'}b.onclick=()=>paintCell(i,b);grid.appendChild(b)})
+}
+function paintCell(i,b){
+  const p=COLOUR_PAGES[currentColourPage],n=p.grid[i];if(!n||colourGame.painted[i])return;if(!colourGame.start){colourGame.start=performance.now();colourTimerHandle=setInterval(()=>$('#colourTimer').textContent=((performance.now()-colourGame.start)/1000).toFixed(1)+'s',100)}
+  if(n!==selectedColour){b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong');return}
+  colourGame.painted[i]=true;renderColour();
+  const remaining=p.grid.some((x,j)=>x&&!colourGame.painted[j]);if(!remaining){clearInterval(colourTimerHandle);const ms=performance.now()-colourGame.start;if(!state.stats.colourBest||ms<state.stats.colourBest)state.stats.colourBest=ms;earnBerries(25,'colourWins','colourBerries');toast('Picture finished! +25 Berries 🍓')}
+}
+
+function shopCard(item,type,unlocked){
+  return `<div class="shop-card ${unlocked?'unlocked':''}"><div class="shop-icon">${item.icon}</div><strong>${esc(item.name)}</strong><small>${esc(item.desc)}</small><button data-buy="${type}" data-id="${item.id}" data-cost="${item.cost}" ${unlocked?'disabled':''}>${unlocked?'✓ Unlocked':`🍓 ${item.cost}`}</button></div>`
+}
+function renderShop(){
+  if(!state||!$('#emojiShop'))return;
+  $('#shopWallet').textContent=state.berries;
+  $('#emojiShop').innerHTML=SHOP.emoji.map(x=>shopCard(x,'emoji',state.unlocks.berryMojis.includes(x.id))).join('');
+  $('#topicShop').innerHTML=SHOP.topics.map(x=>shopCard(x,'topic',state.unlocks.wordTopics.includes(x.id))).join('');
+  $('#colourShop').innerHTML=SHOP.colour.map(x=>shopCard(x,'colour',state.unlocks.colourPages.includes(x.id))).join('');
+  $$('[data-buy]').forEach(b=>b.onclick=()=>buyPrize(b.dataset.buy,b.dataset.id,+b.dataset.cost))
+}
+function buyPrize(type,id,cost){
+  if(!spendBerries(cost))return;
+  if(type==='emoji')state.unlocks.berryMojis.push(id);
+  if(type==='topic')state.unlocks.wordTopics.push(id);
+  if(type==='colour')state.unlocks.colourPages.push(id);
+  save();renderStats();renderWordTopics();renderColourPages();toast('Unlocked! It is yours now ✦🍓')
+}
+
+/* interactive Comfort Corner */
+const BODY_SUGGEST={
+ thirsty:'A few sips of water might feel nice. You can take it slowly.',
+ hungry:'A small familiar snack might help your body feel steadier.',
+ toilet:'Your body might be asking for a toilet break before anything else.',
+ warm:'Maybe lose a layer, move somewhere cooler, or get a cool drink.',
+ cold:'A blanket, comfy layer or warm drink could make things cosier.',
+ tired:'It might be a good moment to lie down, dim the screen, or have quiet time.',
+ sore:'Try getting into the most comfortable position you can. If something genuinely hurts or worries you, tell a trusted adult or seek appropriate help.'
+};
+function renderComfort(){
+  if(!state?.comfort)return;
+  $$('[data-body]').forEach(b=>b.classList.toggle('on',state.comfort.body.includes(b.dataset.body)));
+  $$('[data-touch]').forEach(b=>b.classList.toggle('on',state.comfort.touch===b.dataset.touch));
+  const chosen=state.comfort.body.map(x=>BODY_SUGGEST[x]).filter(Boolean);
+  $('#bodySuggestion').textContent=chosen.length?chosen.join(' '):'Tap anything that feels true and Berry Haven will make a gentle little suggestion.';
+  const touch={cuddles:'Cuddles sound comforting right now. You can still change your mind at any point.',hand:'Keeping touch small and simple sounds best right now.',none:'No touching is a complete answer. Space can be comforting too.',unsure:"It's okay not to know yet. You don't need to choose until you feel ready."};
+  $('#touchResult').textContent=touch[state.comfort.touch]||"You don't have to decide until you know what feels comfortable.";
+  $$('[data-ground]').forEach(b=>b.classList.toggle('on',state.comfort.ground.includes(b.dataset.ground)));
+  const n=state.comfort.ground.length;$('#groundBar').style.width=(n*20)+'%';$('#groundResult').textContent=n===5?'All five done. You made it through the whole grounding exercise ♡':n?`${n} of 5 steps done. Keep going only if it feels helpful.`:'You can do one step or all five. No rush.'
+}
+function startBreathing(){
+  stopBreathing();const phases=[['Breathe in…',4000,'inhale'],['Hold gently…',2000,'hold'],['Breathe out…',6000,'exhale']];let i=0;
+  const run=()=>{const [txt,dur,cls]=phases[i];$('#breathText').textContent=txt;$('#breathBerry').className='breath-berry '+cls;breathTimer=setTimeout(()=>{i=(i+1)%phases.length;run()},dur)};run()
+}
+function stopBreathing(){clearTimeout(breathTimer);breathTimer=null;if($('#breathBerry'))$('#breathBerry').className='breath-berry';if($('#breathText'))$('#breathText').textContent='Ready when you are'}
+
+
+function ctx(){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();return audioCtx}
+let v3Master=null,v3CurrentSound='';
+function v3Register(...nodes){audioNodes.push(...nodes);return nodes}
+function v3SetVolume(v){
+  const val=Math.max(0,Math.min(1,+v||0));
+  const readout=$('#v3VolumeValue');if(readout)readout.textContent=Math.round(val*100)+'%';
+  if(v3Master&&audioCtx){
+    const now=audioCtx.currentTime;
+    v3Master.gain.cancelScheduledValues(now);
+    v3Master.gain.setTargetAtTime(val,now,.035)
+  }
+}
+function stopV3Sound(){
+  soundTimers.forEach(clearInterval);soundTimers=[];
+  audioNodes.forEach(n=>{try{n.stop?.()}catch{}try{n.disconnect?.()}catch{}});audioNodes=[];
+  v3Master=null;v3CurrentSound='';
+  $$('[data-v3sound]').forEach(b=>b.classList.remove('playing'))
+}
+function v3NoiseBuffer(kind='white',seconds=4){
+  const c=ctx(),buf=c.createBuffer(1,c.sampleRate*seconds,c.sampleRate),d=buf.getChannelData(0);
+  let brown=0,p0=0,p1=0,p2=0,p3=0,p4=0,p5=0,p6=0;
+  for(let i=0;i<d.length;i++){
+    const w=Math.random()*2-1;
+    if(kind==='brown'){brown=(brown+.018*w)/1.018;d[i]=brown*3.2}
+    else if(kind==='pink'){
+      p0=.99886*p0+w*.0555179;p1=.99332*p1+w*.0750759;p2=.969*p2+w*.153852;
+      p3=.8665*p3+w*.3104856;p4=.55*p4+w*.5329522;p5=-.7616*p5-w*.016898;
+      d[i]=(p0+p1+p2+p3+p4+p5+p6+w*.5362)*.12;p6=w*.115926
+    } else d[i]=w*.42
+  }
+  return buf
+}
+function v3Noise(kind='white'){
+  const c=ctx(),s=c.createBufferSource();s.buffer=v3NoiseBuffer(kind);s.loop=true;v3Register(s);return s
+}
+function v3Gain(value=1){const c=ctx(),g=c.createGain();g.gain.value=value;v3Register(g);return g}
+function v3Filter(type,freq,q=.7){const c=ctx(),f=c.createBiquadFilter();f.type=type;f.frequency.value=freq;f.Q.value=q;v3Register(f);return f}
+function v3Pan(value=0){const c=ctx();if(c.createStereoPanner){const p=c.createStereoPanner();p.pan.value=value;v3Register(p);return p}return v3Gain(1)}
+function v3MasterChain(){
+  const c=ctx(),master=c.createGain(),comp=c.createDynamicsCompressor();
+  master.gain.value=+$('#v3Volume').value||.32;
+  comp.threshold.value=-18;comp.knee.value=18;comp.ratio.value=3;comp.attack.value=.02;comp.release.value=.28;
+  master.connect(comp).connect(c.destination);v3Register(master,comp);v3Master=master;return master
+}
+function v3Drop(master){
+  const c=ctx(),now=c.currentTime,o=c.createOscillator(),g=c.createGain(),p=v3Pan((Math.random()-.5)*1.5);
+  o.type='sine';o.frequency.setValueAtTime(900+Math.random()*1400,now);o.frequency.exponentialRampToValueAtTime(600+Math.random()*400,now+.055);
+  g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.024+Math.random()*.018,now+.004);g.gain.exponentialRampToValueAtTime(.0001,now+.065);
+  o.connect(g).connect(p).connect(master);o.start(now);o.stop(now+.07);v3Register(o,g,p)
+}
+function v3Rain(master){
+  const c=ctx(),bed=v3Noise('pink'),hp=v3Filter('highpass',420),lp=v3Filter('lowpass',4700),g=v3Gain(.62);
+  bed.connect(hp).connect(lp).connect(g).connect(master);bed.start();
+  const lfo=c.createOscillator(),lg=c.createGain();lfo.type='sine';lfo.frequency.value=.075;lg.gain.value=.10;lfo.connect(lg).connect(g.gain);lfo.start();v3Register(lfo,lg);
+  soundTimers.push(setInterval(()=>{if(Math.random()>.30)v3Drop(master)},145))
+}
+function v3Wind(master){
+  const c=ctx(),bed=v3Noise('pink'),bp=v3Filter('bandpass',560,.38),g=v3Gain(.48);
+  bed.connect(bp).connect(g).connect(master);bed.start();
+  const amp=c.createOscillator(),ag=c.createGain();amp.frequency.value=.06;ag.gain.value=.18;amp.connect(ag).connect(g.gain);amp.start();v3Register(amp,ag);
+  const sweep=c.createOscillator(),sg=c.createGain();sweep.frequency.value=.037;sg.gain.value=210;sweep.connect(sg).connect(bp.frequency);sweep.start();v3Register(sweep,sg)
+}
+function v3Chirp(master){
+  const c=ctx(),now=c.currentTime,o=c.createOscillator(),g=c.createGain(),p=v3Pan((Math.random()-.5)*1.35),f=v3Filter('highpass',1100);
+  const base=1600+Math.random()*800;o.type='sine';o.frequency.setValueAtTime(base,now);o.frequency.exponentialRampToValueAtTime(base*(1.25+Math.random()*.35),now+.12);
+  g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.08+Math.random()*.035,now+.018);g.gain.exponentialRampToValueAtTime(.0001,now+.2);
+  o.connect(g).connect(f).connect(p).connect(master);o.start(now);o.stop(now+.21);v3Register(o,g,p)
+}
+function v3Birds(master){
+  const amb=v3Noise('pink'),lp=v3Filter('lowpass',780),g=v3Gain(.08);amb.connect(lp).connect(g).connect(master);amb.start();
+  for(let i=0;i<3;i++)setTimeout(()=>v3Chirp(master),i*230);
+  soundTimers.push(setInterval(()=>{const n=1+Math.floor(Math.random()*3);for(let i=0;i<n;i++)setTimeout(()=>v3Chirp(master),i*170)},1900))
+}
+function v3Car(master){
+  const c=ctx();
+  const road=v3Noise('brown'),roadLP=v3Filter('lowpass',330),rg=v3Gain(.36);road.connect(roadLP).connect(rg).connect(master);road.start();
+  const air=v3Noise('pink'),airHP=v3Filter('highpass',650),airLP=v3Filter('lowpass',2500),ag=v3Gain(.12);air.connect(airHP).connect(airLP).connect(ag).connect(master);air.start();
+  const o1=c.createOscillator(),o2=c.createOscillator(),g1=v3Gain(.045),g2=v3Gain(.018);o1.type='triangle';o2.type='sine';o1.frequency.value=74;o2.frequency.value=148;o1.connect(g1).connect(master);o2.connect(g2).connect(master);o1.start();o2.start();v3Register(o1,o2);
+  const lfo=c.createOscillator(),lg=c.createGain();lfo.frequency.value=.055;lg.gain.value=2.4;lfo.connect(lg).connect(o1.frequency);lfo.start();v3Register(lfo,lg)
+}
+function v3White(master){
+  const n=v3Noise('white'),hp=v3Filter('highpass',170),lp=v3Filter('lowpass',7200),g=v3Gain(.38);
+  n.connect(hp).connect(lp).connect(g).connect(master);n.start()
+}
+function v3Brown(master){
+  const n=v3Noise('brown'),lp=v3Filter('lowpass',980),g=v3Gain(.56);
+  n.connect(lp).connect(g).connect(master);n.start()
+}
+function playV3Sound(kind,b){
+  stopV3Sound();const c=ctx();if(c.state==='suspended')c.resume();
+  const master=v3MasterChain();v3CurrentSound=kind;
+  if(kind==='rain')v3Rain(master);else if(kind==='wind')v3Wind(master);else if(kind==='birds')v3Birds(master);
+  else if(kind==='car')v3Car(master);else if(kind==='white')v3White(master);else if(kind==='brown')v3Brown(master);
+  b?.classList.add('playing');v3SetVolume($('#v3Volume').value);toast('Playing softly ♫')
+}
+
+
+function updatePair(){
+  const on=dc&&dc.readyState==='open';
+  $('#statusDot').classList.toggle('online',on);
+  $('#statusText').textContent=on?(partner?partner.name+' connected':'Partner connected'):'Local mode';
+  $('#pairStatus').textContent=on?'Connected securely peer-to-peer ♡':'Not connected';
+  $('#pairStatus').classList.toggle('online',on)
+}
+function peer(){
+  disconnectPeer();
+  pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+  pc.ondatachannel=e=>setupChannel(e.channel);
+  pc.onconnectionstatechange=updatePair;
+  return pc
+}
+function setupChannel(ch){
+  dc=ch;dc.bufferedAmountLowThreshold=50000;
+  dc.onopen=()=>{updatePair();toast('Partner connected ♡');sendSnapshot()};
+  dc.onclose=updatePair;dc.onmessage=onPeerMessage
+}
+function sendEvent(o){if(dc&&dc.readyState==='open')try{dc.send(JSON.stringify(o))}catch(e){console.warn(e)}}
+function sendSnapshot(){if(!state)return;sendEvent({type:'snapshot',profile:{id:currentAccount.id,name:currentAccount.name,role:currentAccount.role},consent:state.consentOwn,adult:state.adultChat.slice(-100),little:state.littleChat.slice(-100),safe:currentAccount.role==='little'?state.safe:null,feeling:currentAccount.role==='little'?state.feeling:'',rules:state.rulesHub?.rules||[],routines:state.rulesHub?.routines||[]})}
+function mergeMessages(a,b){const ids=new Set(a.map(x=>x.id));b.forEach(x=>{if(!ids.has(x.id))a.push(x)});a.sort((x,y)=>x.ts-y.ts)}
+async function waitIce(p){
+  if(p.iceGatheringState==='complete')return;
+  await new Promise(res=>{const f=()=>{if(p.iceGatheringState==='complete'){p.removeEventListener('icegatheringstatechange',f);res()}};p.addEventListener('icegatheringstatechange',f);setTimeout(res,5000)})
+}
+function encSignal(d){return btoa(unescape(encodeURIComponent(JSON.stringify(d))))}
+function decSignal(s){return JSON.parse(decodeURIComponent(escape(atob(s.trim()))))}
+function signalEnvelope(kind,description){
+  return 'BERRY1.'+encSignal({kind,description,created:Date.now()})
+}
+function parseEnvelope(text){
+  const t=text.trim();
+  if(t.startsWith('BERRY1.'))return JSON.parse(decodeURIComponent(escape(atob(t.slice(7)))));
+  const legacy=decSignal(t);
+  return {kind:legacy.type==='offer'?'offer':'answer',description:legacy}
+}
+async function shortCodeFrom(text){
+  try{
+    const bytes=await crypto.subtle.digest('SHA-256',enc.encode(text));
+    const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const a=new Uint8Array(bytes);let s='';
+    for(let i=0;i<8;i++)s+=alphabet[a[i]%alphabet.length];
+    return `BERRY-${s.slice(0,4)}-${s.slice(4,8)}`
+  }catch{
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';
+    for(let i=0;i<8;i++)s+=chars[Math.floor(Math.random()*chars.length)];
+    return `BERRY-${s.slice(0,4)}-${s.slice(4,8)}`
+  }
+}
+async function setBerryCode(text){$('#berryPairShortCode').textContent=await shortCodeFrom(text)}
+async function berryCreateInvite(){
+  try{
+    const p=peer(),ch=p.createDataChannel('berryhaven',{ordered:true});setupChannel(ch);
+    await p.setLocalDescription(await p.createOffer());await waitIce(p);
+    berryPairOfferText=signalEnvelope('offer',p.localDescription);berryPairMode='host';
+    $('#berryInviteText').value=berryPairOfferText;$('#berryInviteOut').hidden=false;$('#berryReplyOut').hidden=true;$('#berryPairPaste').value='';
+    await setBerryCode(berryPairOfferText);toast('Pairing invite ready 🍓')
+  }catch(e){console.error(e);toast('Berry Haven could not create an invite on this browser')}
+}
+async function berryAcceptPaste(){
+  const raw=$('#berryPairPaste').value.trim();if(!raw)return toast('Paste your partner’s Berry code first 🍓');
+  try{
+    const pack=parseEnvelope(raw);
+    if(pack.kind==='offer'||pack.description?.type==='offer'){
+      const p=peer();await p.setRemoteDescription(pack.description);await p.setLocalDescription(await p.createAnswer());await waitIce(p);
+      const reply=signalEnvelope('answer',p.localDescription);berryPairMode='guest';
+      $('#berryReplyText').value=reply;$('#berryReplyOut').hidden=false;$('#berryInviteOut').hidden=true;
+      await setBerryCode(raw);toast('Offer accepted. Send the reply back ♡')
+    }else if(pack.kind==='answer'||pack.description?.type==='answer'){
+      if(!pc||berryPairMode!=='host')return toast('Create the pairing invite on this phone first');
+      await pc.setRemoteDescription(pack.description);await setBerryCode(berryPairOfferText||raw);
+      $('#berryReplyOut').hidden=true;toast('Reply accepted. Connecting…')
+    }else toast('Berry Haven did not recognise that pairing code')
+  }catch(e){console.error(e);toast('That pairing code looks a little wonky. Try pasting it again 🍓')}
+}
+async function copyPairText(id){
+  const text=$(id).value;if(!text)return;
+  try{await navigator.clipboard.writeText(text);toast('Copied to clipboard ♡')}
+  catch{const el=$(id);el.focus();el.select();try{document.execCommand('copy');toast('Copied to clipboard ♡')}catch{toast('Press and hold the code to copy it')}}
+}
+function clearBerryPairingBoxes(){
+  $('#berryPairPaste').value='';$('#berryInviteText').value='';$('#berryReplyText').value='';
+  $('#berryInviteOut').hidden=true;$('#berryReplyOut').hidden=true;
+  if(!(dc&&dc.readyState==='open'))$('#berryPairShortCode').textContent='BERRY-••••-••••'
+}
+function disconnectPeer(){
+  if(dc)try{dc.close()}catch{};if(pc)try{pc.close()}catch{};
+  dc=null;pc=null;partner=null;berryPairMode='';berryPairOfferText='';
+  if(state)updatePair()
+}
+
+function onPeerMessage(e){let m;try{m=JSON.parse(e.data)}catch{return}if(m.type==='snapshot'){partner=m.profile;state.consentPartner={name:partner.name,...m.consent};state.rulesHub=state.rulesHub||{rules:[],routines:[],partnerRules:[],partnerRoutines:[]};state.rulesHub.partnerRules=m.rules||[];state.rulesHub.partnerRoutines=m.routines||[];mergeMessages(state.adultChat,m.adult||[]);mergeMessages(state.littleChat,m.little||[]);if(currentAccount.role==='caregiver'&&partner.role==='little'&&typeof m.safe==='boolean')state.safe=m.safe;if(partner.role==='little')state.partnerFeeling=m.feeling||'';save();render();if(state.safe)show('littleHome');return}if(m.type==='message'){const a=m.space==='adult'?state.adultChat:state.littleChat;if(!a.some(x=>x.id===m.msg.id)){a.push(m.msg);save();renderChats();toast('New message from '+m.msg.name)}return}if(m.type==='edit'){const a=m.space==='adult'?state.adultChat:state.littleChat,x=a.find(z=>z.id===m.id);if(x){x.text=m.text;x.edited=true;save();renderChats()}return}if(m.type==='delete'){const a=m.space==='adult'?state.adultChat:state.littleChat,i=a.findIndex(z=>z.id===m.id);if(i>=0){a.splice(i,1);save();renderChats()}return}if(m.type==='rulesSync'){state.rulesHub=state.rulesHub||{rules:[],routines:[],partnerRules:[],partnerRoutines:[]};state.rulesHub.partnerRules=m.rules||[];state.rulesHub.partnerRoutines=m.routines||[];save();renderRules();return}
+if(m.type==='aftercareShare'){state.partnerAftercare=m.item||null;save();renderAftercare();toast('Your partner shared an aftercare check-in ♡');return}
+if(m.type==='consent'){state.consentPartner={name:m.name,...m.consent};save();renderConsent();return}if(m.type==='safe'&&currentAccount.role==='caregiver'){state.safe=!!m.value;save();render();show(state.safe?'littleHome':'adultHome');toast(state.safe?'Your partner entered Berry Safe Space':'Your partner returned to Adult Space');return}if(m.type==='feeling'&&currentAccount.role==='caregiver'){state.partnerFeeling=m.feeling;save();renderFeelings();return}}
+
+/* wiring */
+$('#loginTabV3').onclick=()=>authTab('login');$('#createTabV3').onclick=()=>{$('#createFeedback').textContent='';authTab('create')};$('#backAccountsV3').onclick=()=>{$('#accountListV3').hidden=false;$('#loginFormV3').hidden=true};$('#loginButtonV3').onclick=login;$('#loginPasswordV3').onkeydown=e=>{if(e.key==='Enter')login()};
+$$('[data-create-v3]').forEach(b=>b.onclick=()=>{if(createCombo.length<4)createCombo.push(b.dataset.createV3);dots('#createDotsV3',createCombo.length)});$('#clearCreateV3').onclick=()=>{createCombo=[];dots('#createDotsV3',0)};$('#createAccountV3').onclick=createAccount;
+$$('[data-unlock-v3]').forEach(b=>b.onclick=()=>{if(unlockCombo.length<4)unlockCombo.push(b.dataset.unlockV3);dots('#unlockDotsV3',unlockCombo.length);if(unlockCombo.length===4)setTimeout(()=>quickUnlock('combo',unlockCombo.join('')),100)});$('#clearUnlockV3').onclick=()=>{unlockCombo=[];dots('#unlockDotsV3',0)};$('#quickUnlockV3').onclick=()=>quickUnlock('password',$('#quickPasswordV3').value);$('#quickPasswordV3').onkeydown=e=>{if(e.key==='Enter')quickUnlock('password',$('#quickPasswordV3').value)};
+$('#berryButton').onclick=enterSafe;$$('[data-page]').forEach(b=>b.onclick=()=>show(b.dataset.page));$$('[data-today]').forEach(c=>c.onchange=()=>{state.today[c.dataset.today]=c.checked;save();renderToday()});
+$('#adultChatForm').onsubmit=e=>{e.preventDefault();sendMessage('adult',$('#adultChatInput').value);$('#adultChatInput').value=''};$('#littleChatForm').onsubmit=e=>{e.preventDefault();sendMessage('little',$('#littleChatInput').value);$('#littleChatInput').value=''};$$('[data-picker]').forEach(b=>b.onclick=()=>openPicker(b.dataset.picker));$$('[data-file]').forEach(b=>b.onclick=()=>$(`#${b.dataset.file}File`).click());$('#adultFile').onchange=e=>{attachFile('adult',e.target.files[0]);e.target.value=''};$('#littleFile').onchange=e=>{attachFile('little',e.target.files[0]);e.target.value=''};
+$$('[data-consent-tab]').forEach(b=>b.onclick=()=>{currentConsent=b.dataset.consentTab;renderConsent()});$('#saveConsent').onclick=saveConsent;$('#savePlan').onclick=()=>{state.plan={title:$('#planTitle').value,interval:+$('#planInterval').value||15,boundaries:$('#planBoundaries').value,aftercare:$('#planAftercare').value};save();toast('Plan saved locally')};
+$('#rulesTab').onclick=()=>{rulesMode='rules';renderRules()};$('#routinesTab').onclick=()=>{rulesMode='routines';renderRules()};
+$('#saveRule').onclick=saveRuleV9;$('#cancelRuleEdit').onclick=clearRuleForm;$('#saveRoutine').onclick=saveRoutineV9;$('#cancelRoutineEdit').onclick=clearRoutineForm;
+$$('[data-pref]').forEach(b=>b.onclick=()=>b.classList.toggle('on'));$('#saveAfterPrefs').onclick=saveAfterPrefs;
+$$('[data-after]').forEach(b=>b.onclick=()=>{afterSelected.has(b.dataset.after)?afterSelected.delete(b.dataset.after):afterSelected.add(b.dataset.after);renderAftercare()});
+$$('[data-aftermood]').forEach(b=>b.onclick=()=>{afterMood=afterMood===b.dataset.aftermood?'':b.dataset.aftermood;renderAftercare()});
+$('#settledRange').oninput=()=>$('#settledValue').textContent=$('#settledRange').value+'/5';$('#saveAftercare').onclick=saveAftercare;
+$('#clearAftercare').onclick=()=>{if(confirm('Clear all of your saved aftercare check-ins?')){state.afterHistory=[];save();renderAftercare();toast('Aftercare history cleared')}};
+$('#addLittleTask').onclick=()=>{const v=$('#littleTaskInput').value.trim();if(!v)return;state.littleTasks.push({text:v,done:false});$('#littleTaskInput').value='';save();renderTasks()};$$('[data-game]').forEach(b=>b.onclick=()=>{$$('[data-game]').forEach(x=>x.classList.toggle('active',x===b));$$('.gamepane').forEach(x=>x.hidden=true);$('#game'+({pairs:'Pairs',words:'Words',four:'Four',colour:'Colour'}[b.dataset.game])).hidden=false});
+$('#resetGame').onclick=newGame;$('#newWords').onclick=newWords;$('#newFour').onclick=newFour;$('#resetColour').onclick=newColour;
+$('#openPrizeGarden').onclick=()=>show('prizeGarden');$('#backToArcade').onclick=()=>show('miniGames');
+$$('[data-body]').forEach(b=>b.onclick=()=>{const x=b.dataset.body,i=state.comfort.body.indexOf(x);i>=0?state.comfort.body.splice(i,1):state.comfort.body.push(x);save();renderComfort()});
+$$('[data-touch]').forEach(b=>b.onclick=()=>{state.comfort.touch=b.dataset.touch;save();renderComfort()});
+$$('[data-ground]').forEach(b=>b.onclick=()=>{const x=b.dataset.ground,i=state.comfort.ground.indexOf(x);i>=0?state.comfort.ground.splice(i,1):state.comfort.ground.push(x);save();renderComfort()});
+$('#startBreathing').onclick=startBreathing;$('#stopBreathing').onclick=stopBreathing;
+$$('[data-open]').forEach(b=>b.onclick=()=>window.open(b.dataset.open,'_blank','noopener,noreferrer'));$$('[data-v3sound]').forEach(b=>b.onclick=()=>playV3Sound(b.dataset.v3sound,b));$('#v3StopSound').onclick=()=>{stopV3Sound();toast('Sounds stopped')};$('#v3Volume').addEventListener('input',e=>v3SetVolume(e.target.value));v3SetVolume($('#v3Volume').value);
+$('#clearCurrentAccountData').onclick=clearCurrentAccountData;
+$('#deleteCurrentAccount').onclick=deleteCurrentAccount;
+$('#berryCreateInvite').onclick=berryCreateInvite;
+$('#berryAcceptPaste').onclick=berryAcceptPaste;
+$('#berryCopyInvite').onclick=()=>copyPairText('#berryInviteText');
+$('#berryCopyReply').onclick=()=>copyPairText('#berryReplyText');
+$('#berryClearPairing').onclick=clearBerryPairingBoxes;
+$('#disconnectRtc').onclick=()=>{disconnectPeer();clearBerryPairingBoxes();toast('Partner disconnected')};$('#lockNowV3').onclick=lockNow;$('#logoutV3').onclick=logout;$('#exportData').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='berry-haven-'+currentAccount.name+'-local-data.json';a.click();URL.revokeObjectURL(a.href)};
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&currentAccount){lockPending=true}else if(!document.hidden&&lockPending&&currentAccount){lockPending=false;lockNow()}});
+
+window.addEventListener('pageshow',()=>{
+  if(!currentAccount&&!$('#authV3').hidden)authTab('login')
+});
+window.addEventListener('storage',e=>{
+  if(e.key===ACCOUNTS_KEY&&!currentAccount&&!$('#authV3').hidden)authTab('login')
+});
+
+
+/* Revision 4 embedded players */
+function setEmbeddedPlayer(kind,id,title,sub){
+  const frame=document.getElementById(kind==='music'?'musicFrame':'tvFrame');
+  const titleEl=document.getElementById(kind==='music'?'musicNowTitle':'tvNowTitle');
+  const subEl=document.getElementById(kind==='music'?'musicNowSub':'tvNowSub');
+  if(!frame)return;
+  frame.src=`https://www.youtube-nocookie.com/embed/${id}?playsinline=1&rel=0`;
+  titleEl.textContent=title;subEl.textContent=sub;
+  document.querySelectorAll(kind==='music'?'[data-music-id]':'[data-tv-id]').forEach(b=>{
+    const activeId=kind==='music'?b.dataset.musicId:b.dataset.tvId;
+    b.classList.toggle('active',activeId===id)
+  })
+}
+document.querySelectorAll('[data-music-id]').forEach(b=>b.addEventListener('click',()=>setEmbeddedPlayer('music',b.dataset.musicId,b.dataset.title,b.dataset.sub)));
+document.querySelectorAll('[data-tv-id]').forEach(b=>b.addEventListener('click',()=>setEmbeddedPlayer('tv',b.dataset.tvId,b.dataset.title,b.dataset.sub)));
+if(location.protocol==='file:'){
+  document.getElementById('musicLocalWarning')?.classList.add('show');
+  document.getElementById('tvLocalWarning')?.classList.add('show');
+}
+
+newGame();newWords();newFour();newColour();dots('#createDotsV3',0);dots('#unlockDotsV3',0);authTab('login');
+
+</script>
+</body>
+</html>
